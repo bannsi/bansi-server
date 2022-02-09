@@ -26,15 +26,13 @@ public class KakaoService {
     
     public String getAccessToken(String authCode) throws IOException {
         String accessToken = new String();
-        String refreshToken = new String();
+        // String refreshToken = new String();
         String tokenURL = "https://kauth.kakao.com/oauth/token";
         log.info("get access token");
         try{
             URL url = new URL(tokenURL);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("POST");
-            // conn.setRequestProperty("Accept", "application/json");
-            // conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
             conn.setDoOutput(true);
 
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));

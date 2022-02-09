@@ -10,8 +10,6 @@ import com.gotgam.bansi.service.PieceService;
 import com.gotgam.bansi.util.JwtUtil;
 
 import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -33,32 +31,20 @@ public class PieceController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    private static final Logger logger = LoggerFactory.getLogger(PieceController.class);
-
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<ListPieceResponse> getPiecesByUserId(@RequestHeader HttpHeaders headers){
         String token = headers.getFirst("Authorization").substring(7);
         String kakaoId = jwtUtil.getUsernameFromToken(token);
-        logger.info(kakaoId);
         List<Piece> pieces = pieceService.findPieceByUserId(kakaoId);
-        // List<PieceResponse> pieceResponses = new ArrayList<>();
-        // User user = userRestTemplateClient.getUser(kakaoId);
-        // for(Piece piece : pieces){
-        //     pieceResponses.add(new PieceResponse(piece, user, imageService.getImageUrl(piece.getPieceId()), piece.getKeywords(), piece.getWhos()));
-        // }
+        
         return ResponseEntity.ok().body(new ListPieceResponse("S00", "message", pieces));
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<PieceResponse> savePiece(@RequestHeader HttpHeaders headers, @ModelAttribute PieceRequest pieceRequest){
-        logger.info("create piece");
         String token = headers.getFirst("Authorization").substring(7);
-        logger.info(token);
         String kakaoId = jwtUtil.getUsernameFromToken(token);
-        logger.info(kakaoId);
-        pieceRequest.setTitle("tmp title");
         Piece piece = pieceService.savePiece(pieceRequest, kakaoId);
-        // return ResponseEntity.ok().body(new PieceResponse(piece, piece.getUser(), imageService.getImageUrl(piece.getPieceId()), piece.getKeywords(), piece.getWhos()));
         return ResponseEntity.ok().body(new PieceResponse("S00", "saved", piece));
     }
 

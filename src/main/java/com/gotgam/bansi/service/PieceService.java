@@ -14,7 +14,6 @@ import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.model.WhoKeyword;
 import com.gotgam.bansi.respository.KeywordRepository;
-import com.gotgam.bansi.respository.PieceImageRepository;
 import com.gotgam.bansi.respository.PieceRepository;
 import com.gotgam.bansi.respository.UserRepository;
 import com.gotgam.bansi.respository.WhoKeywordRepository;
@@ -32,9 +31,6 @@ public class PieceService {
     @Autowired
     private PieceRepository pieceRepository;
     
-    @Autowired
-    private PieceImageRepository imageRepository;
-
     @Autowired
     private KeywordRepository keywordRepository;
 

@@ -17,7 +17,6 @@ import com.gotgam.bansi.model.PieceCollection;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.respository.ItemRepository;
 import com.gotgam.bansi.respository.PieceCollectionRepository;
-import com.gotgam.bansi.respository.PieceRepository;
 import com.gotgam.bansi.respository.UserRepository;
 
 import org.slf4j.Logger;
@@ -45,9 +44,6 @@ public class PieceCollectionService {
 
     @Autowired
     private ItemRepository itemRepository;
-
-    @Autowired
-    private PieceRepository pieceRepository;
 
     @Autowired
     private UserRepository userRepository;
