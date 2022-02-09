@@ -1,2 +1,2 @@
-# 반시 서비
+# 반시 서버
 - MSA -> monolithic
