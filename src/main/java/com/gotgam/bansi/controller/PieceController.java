@@ -1,17 +1,11 @@
 package com.gotgam.bansi.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.gotgam.bansi.DTO.PieceDTO.ListPieceResponse;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.DTO.PieceDTO.PieceResponse;
-import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.model.Piece;
-import com.gotgam.bansi.model.User;
-import com.gotgam.bansi.respository.UserRepository;
-import com.gotgam.bansi.service.ImageService;
-import com.gotgam.bansi.service.KeywordService;
 import com.gotgam.bansi.service.PieceService;
 import com.gotgam.bansi.util.JwtUtil;
 
@@ -36,15 +30,6 @@ public class PieceController {
     @Autowired
     private PieceService pieceService;
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private KeywordService keywordService;
-    
-    @Autowired
-    private UserRepository userRepository;
-    
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -73,19 +58,17 @@ public class PieceController {
         logger.info(kakaoId);
         pieceRequest.setTitle("tmp title");
         Piece piece = pieceService.savePiece(pieceRequest, kakaoId);
-        logger.info(piece.getAddress());
-        Optional<User> user = userRepository.findById(kakaoId);
-        if(!user.isPresent()) throw new NotFoundException("wrong user id");
-        return ResponseEntity.ok().body(new PieceResponse(piece, user.get(), imageService.getImageUrl(piece.getPieceId()), piece.getKeywords(), piece.getWhos()));
+        // return ResponseEntity.ok().body(new PieceResponse(piece, piece.getUser(), imageService.getImageUrl(piece.getPieceId()), piece.getKeywords(), piece.getWhos()));
+        return ResponseEntity.ok().body(new PieceResponse("S00", "saved", piece));
     }
 
     @RequestMapping(value="/{pieceId}/", method=RequestMethod.PUT)
-    public ResponseEntity<?> updatePiece(@PathVariable Long pieceId, @RequestBody Piece piece) {
+    public ResponseEntity<PieceResponse> updatePiece(@PathVariable Long pieceId, @RequestBody Piece piece) {
         try {
             pieceService.updatePiece(pieceId, piece);    
         } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(new ResponseDTO(e.getMessage(), null));
+            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(new PieceResponse("E00", e.getMessage(), null));
         }
-        return ResponseEntity.ok().body(new ResponseDTO("piece updated", null));
+        return ResponseEntity.ok().body(new PieceResponse("S00", "piece updated", piece));
     }
 }

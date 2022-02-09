@@ -7,13 +7,9 @@ import com.gotgam.bansi.DTO.PieceCollectionDTO.ListPieceCollectionResponse;
 import com.gotgam.bansi.DTO.PieceCollectionDTO.PieceCollectionRequest;
 import com.gotgam.bansi.DTO.PieceCollectionDTO.PieceCollectionResponse;
 import com.gotgam.bansi.model.PieceCollection;
-import com.gotgam.bansi.respository.ItemRepository;
-import com.gotgam.bansi.respository.PieceCollectionRepository;
 import com.gotgam.bansi.service.PieceCollectionService;
 import com.gotgam.bansi.util.JwtUtil;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -28,19 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/collections/v1")
 public class CollectionController {
-    private final Logger logger = LoggerFactory.getLogger(CollectionController.class);
-
     @Autowired
     private JwtUtil jwtUtil;
     
     @Autowired
     private PieceCollectionService collectionService;
-
-    @Autowired
-    private PieceCollectionRepository collectionRepository;
-
-    @Autowired
-    private ItemRepository itemRepository;
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello(){
