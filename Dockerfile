@@ -1,8 +1,14 @@
-FROM openjdk:11
+FROM adoptopenjdk:11-jdk-hotspot AS builder
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
+RUN chmod +x ./gradlew
+RUN ./gradlew bootJar
 
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} bansi-0.0.1-SNAPSHOT.jar
+FROM adoptopenjdk:11-jdk-hotspot
+COPY --from=builder build/libs/*.jar app.jar
 
 EXPOSE 8080
-
-ENTRYPOINT ["java","-jar","/bansi-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar","/app.jar"]

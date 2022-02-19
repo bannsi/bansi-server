@@ -5,8 +5,16 @@ import java.util.List;
 import com.gotgam.bansi.model.Keyword;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 public class KeywordDTO {
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class KeywordRequest{
+        private String name;
+    }
     @Getter
     public static class KeywordResponse extends ResponseDTO {
         private Keyword body;
