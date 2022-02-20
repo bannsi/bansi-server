@@ -8,6 +8,7 @@ import com.gotgam.bansi.model.WhoKeyword;
 import org.springframework.data.repository.CrudRepository;
 
 public interface WhoKeywordRepository extends CrudRepository<WhoKeyword, Long> {
-    Optional<WhoKeyword> findById(Long whoId);
+    Optional<WhoKeyword> findById(Long whoId);  
     List<WhoKeyword> findAll();
+    List<WhoKeyword> findAllById(List<Long> ids);
 }

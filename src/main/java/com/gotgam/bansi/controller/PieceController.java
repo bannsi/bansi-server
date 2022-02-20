@@ -10,9 +10,9 @@ import com.gotgam.bansi.service.PieceService;
 import com.gotgam.bansi.util.JwtUtil;
 
 import org.apache.http.HttpStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,15 +27,18 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/pieces/v1")
 public class PieceController {
-    @Autowired
-    private PieceService pieceService;
-
-    @Autowired
     private JwtUtil jwtUtil;
-
+    private PieceService pieceService;
+    
+    public PieceController(JwtUtil jwtUtil, PieceService pieceService){
+        this.jwtUtil = jwtUtil;
+        this.pieceService = pieceService;
+    }
+    
     @Operation(security = @SecurityRequirement(name = "Authorization"))
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<ListPieceResponse> getPiecesByUserId(@RequestHeader HttpHeaders headers){

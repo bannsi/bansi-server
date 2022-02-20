@@ -50,6 +50,8 @@ public class Piece {
     @ManyToMany
     private List<Keyword> keywords;
     @ManyToMany
+    private List<OptionalKeyword> opKeywords;
+    @ManyToMany
     private List<WhoKeyword> whos;
     
     

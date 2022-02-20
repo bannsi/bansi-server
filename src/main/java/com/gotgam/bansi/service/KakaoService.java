@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class KakaoService {
     private static final String APIKEY = "057a07ccce2a54f042f9b62e61d4457f";
-    
     public String getAccessToken(String authCode) throws IOException {
         String accessToken = new String();
         // String refreshToken = new String();

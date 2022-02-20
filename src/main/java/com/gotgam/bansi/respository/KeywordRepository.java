@@ -7,4 +7,5 @@ import com.gotgam.bansi.model.Keyword;
 import org.springframework.data.repository.CrudRepository;
 public interface KeywordRepository extends CrudRepository<Keyword, Long> {
     List<Keyword> findAll();
+    List<Keyword> findAllById(List<Long> ids);
 }

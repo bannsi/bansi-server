@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OptionalKeywordRepository extends CrudRepository<OptionalKeyword, Long> {
     List<OptionalKeyword> findAll();    
+    List<OptionalKeyword> findAllById(List<Long> ids);
 }

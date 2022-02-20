@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Service
+@Transactional
 public class KeywordService {
     @Autowired
     private KeywordRepository keywordRepository;
@@ -31,5 +31,9 @@ public class KeywordService {
     public void deleteKeyword(Long keywordId){
         Optional<Keyword> keyword = keywordRepository.findById(keywordId);
         keywordRepository.delete(keyword.get());
+    }
+
+    public List<Keyword> listKeywordsById(List<Long> ids){
+        return keywordRepository.findAllById(ids);
     }
 }
