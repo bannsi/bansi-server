@@ -72,7 +72,8 @@ public class PieceService {
         pieceRepository.save(oPiece.get());
         return oPiece.get();
     }
-
+    // TODO: user는 userservice에서 가져와서 해주자
+    // 읽기는 다른 서비스에서 가져와서 해주는게 좋은것 같음
     public Piece savePiece(PieceRequest pieceRequest, String userId){
         Optional<User> user  = userRepository.findById(userId);
         if(!user.isPresent()) throw new NotFoundException("wrong user id");
