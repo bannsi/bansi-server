@@ -12,7 +12,6 @@ import com.gotgam.bansi.util.JwtUtil;
 import org.apache.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +26,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/pieces/v1")
 public class PieceController {

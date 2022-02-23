@@ -10,5 +10,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface WhoKeywordRepository extends CrudRepository<WhoKeyword, Long> {
     Optional<WhoKeyword> findById(Long whoId);  
     List<WhoKeyword> findAll();
-    List<WhoKeyword> findAllById(List<Long> ids);
+    List<WhoKeyword> findAllById(Iterable<Long> ids);
 }
