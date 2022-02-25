@@ -8,6 +8,7 @@ import com.gotgam.bansi.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 @Transactional
 @Service
@@ -27,12 +28,9 @@ public class UserService {
         return user;
     }
 
-    public User getUserFromId(String kakaoId) throws Exception{
-        Optional<User> opUser = userRepository.findByKakaoId(kakaoId);
-        if(!opUser.isPresent()){
-            throw new Exception();
-        }
-        return opUser.get();
+    public User getUserFromId(String kakaoId){
+        User user = userRepository.findByKakaoId(kakaoId).orElseThrow(() -> new NotFoundException("wrong user id"));
+        return user;
     }
     
     public User updateUser(String kakaoId, User newUser) throws Exception{

@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -76,11 +75,9 @@ public class PieceCollectionService {
         return uploadService.getFileUrl(filename);
     }
 
-    public PieceCollection getCollection(Long collectionId) throws IOException {
-        Optional<PieceCollection> pieceCollection = collectionRepository.findByCollectionId(collectionId);
-        logger.info(pieceCollection.get().getTitle());
-        if(!pieceCollection.isPresent()) throw new IOException();
-        return pieceCollection.get();
+    public PieceCollection getCollection(Long collectionId) {
+        PieceCollection pieceCollection = collectionRepository.findByCollectionId(collectionId).orElseThrow(() -> new NotFoundException("wrong collectionId"));
+        return pieceCollection;
     }
 
     public PieceCollection saveCollection(String userId, PieceCollectionRequest collectionRequest){
@@ -98,11 +95,10 @@ public class PieceCollectionService {
             }
             totalItems.add(item);
         }
-        Optional<User> user = userRepository.findById(userId);
-        if(!user.isPresent()) throw new NotFoundException("wrong user Id");
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("wrong userId"));
         PieceCollection pieceCollection = new PieceCollection();
         pieceCollection.setTitle(collectionRequest.getTitle());
-        pieceCollection.setUser(user.get());
+        pieceCollection.setUser(user);
         pieceCollection.setStartDate(collectionRequest.getStartDate());
         pieceCollection.setEndDate(collectionRequest.getEndDate());
         pieceCollection.setItems(totalItems);

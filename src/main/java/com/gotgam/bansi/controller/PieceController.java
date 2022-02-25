@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.webjars.NotFoundException;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@SecurityRequirement(name = "Authorization")
 @RequestMapping(value = "/pieces/v1")
 public class PieceController {
     private JwtUtil jwtUtil;
@@ -37,11 +37,9 @@ public class PieceController {
         this.pieceService = pieceService;
     }
     
-    @Operation(security = @SecurityRequirement(name = "Authorization"))
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<ListPieceResponse> getPiecesByUserId(@RequestHeader HttpHeaders headers){
         String token = headers.getFirst("Authorization").substring(7);
-        log.info(token);
         String kakaoId = jwtUtil.getUsernameFromToken(token);
         List<Piece> pieces = pieceService.findPieceByUserId(kakaoId);
         

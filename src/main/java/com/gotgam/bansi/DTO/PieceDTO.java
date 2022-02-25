@@ -16,7 +16,6 @@ public class PieceDTO {
     @Getter
     @Setter
     public static class PieceRequest {
-        private String title;
         @DateTimeFormat(iso = ISO.DATE)
         private Date date;
         private String content;

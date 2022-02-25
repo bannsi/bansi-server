@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import com.amazonaws.services.kms.model.NotFoundException;
@@ -44,9 +43,8 @@ public class ImageService {
         } catch (IOException e) {
             throw new IllegalArgumentException(String.format("파일 변환 중 에러 발생  %s", multipartFile.getOriginalFilename()));
         }
-        Optional<Piece> piece = pieceRepository.findById(pieceId);
-        if(!piece.isPresent()) throw new NotFoundException("wrong piece id");
-        imageRepository.save(new PieceImage(piece.get(), filename));
+        Piece piece = pieceRepository.findById(pieceId).orElseThrow(() -> new NotFoundException("wrong pieceId"));
+        imageRepository.save(new PieceImage(piece, filename));
         return uploadService.getFileUrl(filename);
     }
 
@@ -67,9 +65,8 @@ public class ImageService {
     }
 
     public List<String> getImageUrl(Long pieceId){
-        Optional<Piece> piece = pieceRepository.findById(pieceId);
-        if(!piece.isPresent()) throw new NotFoundException("wrong piece id");
-        List<PieceImage> pieceImages = imageRepository.findByPiece(piece.get());
+        Piece piece = pieceRepository.findById(pieceId).orElseThrow(() -> new NotFoundException("wrong pieceId"));
+        List<PieceImage> pieceImages = imageRepository.findByPiece(piece);
         List<String> images = new ArrayList<>();
         for(PieceImage pieceImage : pieceImages){
             images.add("https://jinho.s3.ap-northeast-2.amazonaws.com/" + pieceImage.getImageUrl());

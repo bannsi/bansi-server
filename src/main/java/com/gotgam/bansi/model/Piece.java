@@ -28,8 +28,6 @@ public class Piece {
     private Long pieceId;
     @ManyToOne
     private User user;
-    @Column(name="title", nullable = false)
-    private String title;
     @Column(name="content")
     private String content;
     @Column(name = "date", nullable = false)
@@ -57,11 +55,6 @@ public class Piece {
     
     public Piece withUser(User user){
         this.setUser(user);
-        return this;
-    }
-    
-    public Piece withTitle(String title){
-        this.setTitle(title);
         return this;
     }
     

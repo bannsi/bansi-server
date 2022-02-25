@@ -1,7 +1,6 @@
 package com.gotgam.bansi.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.DTO.WhoKeywordDTO.ListWhowKeywordResponse;
@@ -17,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
+@SecurityRequirement(name = "Authorization")
 @RequestMapping(value = "/pieces/v1/who")
 public class WhoKeywordController {
     @Autowired
@@ -37,8 +39,7 @@ public class WhoKeywordController {
 
     @RequestMapping(value = "/{whoId}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseDTO> deleteWho(@PathVariable Long whoId){
-        Optional<WhoKeyword> whoKeyword = whoKeywordRepository.findById(whoId);
-        whoKeywordRepository.delete(whoKeyword.get());
+        whoKeywordRepository.deleteById(whoId);
         return ResponseEntity.ok().body(new ResponseDTO("deleted", null));
     }
 }

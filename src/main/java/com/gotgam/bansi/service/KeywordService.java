@@ -1,8 +1,6 @@
 package com.gotgam.bansi.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.respository.KeywordRepository;
@@ -17,20 +15,13 @@ public class KeywordService {
     @Autowired
     private KeywordRepository keywordRepository;
 
-    public List<String> listKeywords(List<Long> Ids){
-        List<String> keywords = new ArrayList<>();
-        for(Long id : Ids){
-            Optional<Keyword> keyword = keywordRepository.findById(id);
-            if(keyword.isPresent()){
-                keywords.add(keyword.get().getName());
-            }
-        }
+    public List<Keyword> listKeywords(List<Long> ids){
+        List<Keyword> keywords = keywordRepository.findAllById(ids);
         return keywords;
     }
 
     public void deleteKeyword(Long keywordId){
-        Optional<Keyword> keyword = keywordRepository.findById(keywordId);
-        keywordRepository.delete(keyword.get());
+        keywordRepository.deleteById(keywordId);
     }
 
     public List<Keyword> listKeywordsById(List<Long> ids){
