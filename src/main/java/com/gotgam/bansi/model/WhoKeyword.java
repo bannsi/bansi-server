@@ -20,4 +20,8 @@ public class WhoKeyword {
     private Long id;
     @Column(name = "who", nullable = false)
     private String who;
+
+    public WhoKeyword(String name){
+        this.who = name;
+    }
 }

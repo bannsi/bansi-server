@@ -2,6 +2,8 @@ package com.gotgam.bansi.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.gotgam.bansi.DTO.PieceDTO.ListPieceResponse;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.DTO.PieceDTO.PieceResponse;
@@ -47,9 +49,12 @@ public class PieceController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<PieceResponse> savePiece(@RequestHeader HttpHeaders headers, @ModelAttribute PieceRequest pieceRequest){
+    public ResponseEntity<PieceResponse> savePiece(@RequestHeader HttpHeaders headers, @Valid @ModelAttribute PieceRequest pieceRequest){
         String token = headers.getFirst("Authorization").substring(7);
         String kakaoId = jwtUtil.getUsernameFromToken(token);
+        log.info(pieceRequest.getKeywords().toString());
+        log.info(pieceRequest.getOptionalKeywords().toString());
+        log.info(pieceRequest.getWhos().toString());
         Piece piece = pieceService.savePiece(pieceRequest, kakaoId);
         return ResponseEntity.ok().body(new PieceResponse("S00", "saved", piece));
     }

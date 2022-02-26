@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.gotgam.bansi.model.OptionalKeyword;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ public class OptionalKeywordDTO {
     @Getter
     @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class OptionalKeywordRequest{
         @NotBlank
         private String name;

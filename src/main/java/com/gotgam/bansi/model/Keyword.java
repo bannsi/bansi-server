@@ -20,4 +20,8 @@ public class Keyword {
     private Long id;
     @Column(name = "name", nullable = false)    
     private String name;
+
+    public Keyword(String name){
+        this.name = name;
+    }
 }

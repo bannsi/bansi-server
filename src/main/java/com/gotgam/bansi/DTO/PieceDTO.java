@@ -3,6 +3,8 @@ package com.gotgam.bansi.DTO;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import com.gotgam.bansi.model.Piece;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,8 +27,11 @@ public class PieceDTO {
         private String addressDetail;
         private String placeUrl;
         private List<MultipartFile> images;
+        @NotNull
         private List<Long> keywords;
+        @NotNull
         private List<Long> optionalKeywords;
+        @NotNull
         private List<Long> whos;    
     }    
 

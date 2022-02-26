@@ -2,6 +2,7 @@ package com.gotgam.bansi.service;
 
 import java.util.List;
 
+import com.gotgam.bansi.DTO.KeywordDTO.KeywordRequest;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.respository.KeywordRepository;
 
@@ -26,5 +27,10 @@ public class KeywordService {
 
     public List<Keyword> listKeywordsById(List<Long> ids){
         return keywordRepository.findAllById(ids);
+    }
+
+    public Keyword createKeyword(KeywordRequest keywordDto){
+        Keyword keyword = new Keyword(keywordDto.getName());
+        return keywordRepository.save(keyword);
     }
 }
