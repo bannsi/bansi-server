@@ -49,13 +49,6 @@ public class CollectionController {
 
     @RequestMapping(value = "/{collectionId}", method = RequestMethod.GET)
     public ResponseEntity<PieceCollectionResponse> getCollection(@PathVariable Long collectionId) throws IOException{
-        // PieceCollectionResponse collectionResponse = null;
-        // // collectionResponse = collectionService.getCollection(collectionId);    
-        // try {
-        //     collectionResponse = collectionService.getCollection(collectionId);    
-        // } catch (Exception e) {
-        //     ResponseEntity.badRequest().body(new ResponseDTO("wrong collection id: " + String.valueOf(collectionId), null));
-        // }
         PieceCollection pieceCollection = collectionService.getCollection(collectionId);
         return ResponseEntity.ok().body(new PieceCollectionResponse("S00", "get collection", pieceCollection));
     }
@@ -63,14 +56,6 @@ public class CollectionController {
     @RequestMapping(value="/user/{userId}", method=RequestMethod.GET)
     public ResponseEntity<ListPieceCollectionResponse> listCollection(@PathVariable String userId) {
         List<PieceCollection> collections = collectionService.listCollections(userId);
-        // List<PieceCollectionResponse> collectionResponses = new ArrayList<>();
-        // for(PieceCollection collection : collections){
-        //     try{
-        //         collectionResponses.add(collectionService.getCollection(collection.getCollectionId()));
-        //     } catch (Exception e){
-
-        //     }
-        // }
         return ResponseEntity.ok().body(new ListPieceCollectionResponse("S00", "collection list", collections));
     }
     

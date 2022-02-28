@@ -17,14 +17,15 @@ import com.gotgam.bansi.respository.PieceRepository;
 import com.gotgam.bansi.respository.UserRepository;
 import com.gotgam.bansi.respository.WhoKeywordRepository;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @Service
 @Transactional
 public class PieceService {
@@ -45,9 +46,6 @@ public class PieceService {
 
     @Autowired
     private ImageService imageService;
-
-
-    private static final Logger logger = LoggerFactory.getLogger(PieceRepository.class);
 
     public Piece getPieceByPieceId(Long pieceId) {
         Piece piece = pieceRepository.findById(pieceId).orElseThrow(() -> new NotFoundException("wrong pieceId"));
@@ -75,6 +73,7 @@ public class PieceService {
         List<Keyword> keywords = keywordRepository.findAllById(pieceRequest.getKeywords());
         List<OptionalKeyword> opKeywords = new ArrayList<>();
         if(pieceRequest.getOptionalKeywords().size() != 0){
+            log.info(pieceRequest.getOptionalKeywords().toString());
             opKeywords = opKeywordRepository.findAllById(pieceRequest.getOptionalKeywords());
         }
         List<WhoKeyword> whos = whoKeywordRepository.findAllById(pieceRequest.getWhos());
@@ -91,7 +90,7 @@ public class PieceService {
         piece.setOpKeywords(opKeywords);
         piece.setWhos(whos);
 
-        logger.info(pieceRequest.getAddress() + " " + piece.getAddress());
+        log.info(pieceRequest.getAddress() + " " + piece.getAddress());
 
         pieceRepository.save(piece.withCreatedAt(new Date()));
 

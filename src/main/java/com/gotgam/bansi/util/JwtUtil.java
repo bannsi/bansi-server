@@ -9,6 +9,7 @@ import com.gotgam.bansi.model.User;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.webjars.NotFoundException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -56,5 +57,11 @@ public class JwtUtil {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
             .signWith(SignatureAlgorithm.HS512, secret).compact();
+    }
+
+    public String getUsernameFromTokenStr(String tokenStr) throws NotFoundException {
+        if(tokenStr == null || tokenStr.length() < 7) throw new NotFoundException("wrong token");
+        String token = tokenStr.substring(7);
+        return getUsernameFromToken(token);
     }
 }

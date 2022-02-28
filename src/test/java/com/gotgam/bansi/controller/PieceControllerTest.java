@@ -12,6 +12,7 @@ import com.gotgam.bansi.DTO.OptionalKeywordDTO.OptionalKeywordRequest;
 import com.gotgam.bansi.DTO.WhoKeywordDTO.WhoKeywordRequest;
 import com.gotgam.bansi.service.KeywordService;
 import com.gotgam.bansi.service.OptionalKeywordService;
+import com.gotgam.bansi.service.PieceLikeService;
 import com.gotgam.bansi.service.PieceService;
 import com.gotgam.bansi.service.WhoKeywordService;
 import com.gotgam.bansi.util.JwtUtil;
@@ -31,11 +32,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import lombok.extern.slf4j.Slf4j;
-
-
-
-@Slf4j
 @Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -60,9 +56,12 @@ public class PieceControllerTest {
     @Autowired
     private WhoKeywordService whoKeywordService;
     
+    @Autowired
+    private PieceLikeService pieceLikeService;
+
     @BeforeEach
     public void setUp(){
-        mvc = MockMvcBuilders.standaloneSetup(new PieceController(jwtUtil, pieceService))
+        mvc = MockMvcBuilders.standaloneSetup(new PieceController(jwtUtil, pieceService, pieceLikeService))
             .addFilters(new CharacterEncodingFilter("UTF-8", true))
             .build();
     }

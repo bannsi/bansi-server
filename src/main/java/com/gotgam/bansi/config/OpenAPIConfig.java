@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "GotGam", version = "v1"), servers = {@Server(url = "https://gotgam.shop")})
+@OpenAPIDefinition(info = @Info(title = "GotGam", version = "v1"), servers = {@Server(url = "https://gotgam.shop"), @Server(url = "http://localhost:8080")})
 @SecurityScheme(
     name = "Authorization",
     type = SecuritySchemeType.HTTP,

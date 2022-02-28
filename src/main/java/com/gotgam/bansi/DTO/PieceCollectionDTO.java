@@ -10,11 +10,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class PieceCollectionDTO {
     @Getter
     @Setter
+    @NoArgsConstructor
     public static class PieceCollectionRequest {
         private String title;
         private String coverImage;
