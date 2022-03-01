@@ -14,9 +14,7 @@ import com.gotgam.bansi.service.PieceService;
 import com.gotgam.bansi.util.JwtUtil;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -49,8 +47,8 @@ public class PieceController {
         return ResponseEntity.ok().body(new ListPieceResponse("S00", "message", pieces));
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<PieceResponse> savePiece(@RequestHeader HttpHeaders headers, @Valid @ModelAttribute PieceRequest pieceRequest){
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity<PieceResponse> savePiece(@RequestHeader HttpHeaders headers, @Valid @RequestBody PieceRequest pieceRequest){
         String kakaoId = jwtUtil.getUsernameFromTokenStr(headers.getFirst("Authorization"));
         log.info(pieceRequest.getAddress());
         log.info("keyword");

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
+import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.model.OptionalKeyword;
 import com.gotgam.bansi.model.Piece;
@@ -17,10 +18,8 @@ import com.gotgam.bansi.respository.PieceRepository;
 import com.gotgam.bansi.respository.UserRepository;
 import com.gotgam.bansi.respository.WhoKeywordRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,24 +28,21 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 public class PieceService {
-    @Autowired
-    private PieceRepository pieceRepository;
-    
-    @Autowired
-    private KeywordRepository keywordRepository;
+    final private PieceRepository pieceRepository;
+    final private KeywordRepository keywordRepository;
+    final private WhoKeywordRepository whoKeywordRepository;
+    final private OptionalKeywordRepository opKeywordRepository;
+    final private UserRepository userRepository;
+    final private ImageService imageService;
 
-    @Autowired
-    private WhoKeywordRepository whoKeywordRepository;
-
-    @Autowired
-    private OptionalKeywordRepository opKeywordRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ImageService imageService;
-
+    public PieceService(PieceRepository pieceRepository, KeywordRepository keywordRepository, WhoKeywordRepository whoKeywordRepository, OptionalKeywordRepository optionalKeywordRepository, UserRepository userRepository, ImageService imageService){
+        this.pieceRepository = pieceRepository;
+        this.keywordRepository = keywordRepository;
+        this.whoKeywordRepository = whoKeywordRepository;
+        this.opKeywordRepository = optionalKeywordRepository;
+        this.userRepository = userRepository;
+        this.imageService = imageService;
+    }
     public Piece getPieceByPieceId(Long pieceId) {
         Piece piece = pieceRepository.findById(pieceId).orElseThrow(() -> new NotFoundException("wrong pieceId"));
         return piece;
@@ -77,6 +73,7 @@ public class PieceService {
             opKeywords = opKeywordRepository.findAllById(pieceRequest.getOptionalKeywords());
         }
         List<WhoKeyword> whos = whoKeywordRepository.findAllById(pieceRequest.getWhos());
+        List<Image> images = imageService.saveAllImages(pieceRequest.getImages());
         Piece piece = new Piece()
             .withUser(user)
             .withDate(pieceRequest.getDate())
@@ -89,15 +86,12 @@ public class PieceService {
         piece.setKeywords(keywords);
         piece.setOpKeywords(opKeywords);
         piece.setWhos(whos);
+        piece.setImages(images);
+        // piece.setImages(pieceRequest.getImages());
 
         log.info(pieceRequest.getAddress() + " " + piece.getAddress());
 
         pieceRepository.save(piece.withCreatedAt(new Date()));
-
-        for(MultipartFile file : pieceRequest.getImages()){
-            if(file.getOriginalFilename().length() != 0)
-                imageService.uploadImage(file, piece.getPieceId());
-        }
         return piece;
     }
 }

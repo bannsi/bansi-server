@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -51,6 +52,8 @@ public class Piece {
     private List<OptionalKeyword> opKeywords;
     @ManyToMany
     private List<WhoKeyword> whos;
+    @OneToMany
+    private List<Image> images;
     
     
     public Piece withUser(User user){

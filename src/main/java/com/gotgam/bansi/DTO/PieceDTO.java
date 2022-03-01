@@ -3,13 +3,13 @@ package com.gotgam.bansi.DTO;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import com.gotgam.bansi.model.Piece;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +28,8 @@ public class PieceDTO {
         private String address;
         private String addressDetail;
         private String placeUrl;
-        private List<MultipartFile> images;
+        @NotEmpty
+        private List<@NotBlank String> images;
         @NotEmpty
         private List<Long> keywords;
         private List<Long> optionalKeywords;
