@@ -97,13 +97,11 @@ public class PieceService {
     }
 
     public List<Piece> findRandomPieces(){
-        Long maxId = pieceRepository.getMaxId();
-        log.info(String.valueOf(maxId));
-
+        List<Long> candIds = pieceRepository.findIdAll();
         Random rand = new Random(System.currentTimeMillis());
         List<Long> ids = new ArrayList<>();
         for(int i = 0; i < RANDOM_PIECES; i++){
-            ids.add(rand.nextLong() % maxId);
+            ids.add(candIds.get(rand.nextInt(candIds.size())));
         }
         return pieceRepository.findAllById(ids);
     }
