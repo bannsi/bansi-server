@@ -13,4 +13,6 @@ public interface PieceRepository extends JpaRepository<Piece,Long>{
     List<Piece> findAllById(Iterable<Long> ids);
     @Query(value = "SELECT coalesce(max(pieces.piece_id), 0) FROM pieces", nativeQuery = true)
     Long getMaxId();
+    @Query(value = "SELECT pieces.piece_id FROM pieces ORDER BY pieces.created_at LIMIT 100", nativeQuery = true)
+    List<Long> findIdAll();
 }

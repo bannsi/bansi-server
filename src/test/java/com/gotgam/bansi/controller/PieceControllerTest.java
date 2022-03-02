@@ -36,6 +36,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PieceControllerTest {
@@ -82,7 +83,7 @@ public class PieceControllerTest {
         List<Long> whos = new ArrayList<>();
         whos.add(whoKeywordService.createWhoKeyword(new WhoKeywordRequest("test who1")).getId());
         whos.add(whoKeywordService.createWhoKeyword(new WhoKeywordRequest("test who2")).getId());
-
+        
         String keywordReq = keywords.toString();
         keywordReq = keywordReq.substring(1, keywordReq.length()-1);
         String opKeywordReq = opKeywords.toString();
@@ -122,7 +123,6 @@ public class PieceControllerTest {
         actions.andExpectAll(status().isOk());        
     }
     
-    @Transactional
     @Test
     public void pieceCreateFailTest() throws Exception {
         List<Long> keywords = new ArrayList<>();
