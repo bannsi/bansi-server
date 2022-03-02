@@ -1,15 +1,11 @@
 package com.gotgam.bansi.service;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.gotgam.bansi.DTO.PieceCollectionDTO.PieceCollectionRequest;
 import com.gotgam.bansi.model.Item;
 import com.gotgam.bansi.model.PieceCollection;
@@ -23,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -36,10 +31,6 @@ public class PieceCollectionService {
     
     @Autowired
     private PieceCollectionRepository collectionRepository;
-
-
-    @Autowired
-    private UploadService uploadService;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -55,25 +46,25 @@ public class PieceCollectionService {
         }
     }
 
-    private String createFilename(String originalFilename){
-        return UUID.randomUUID().toString().concat(getFileExtension(originalFilename));
-    }
+    // private String createFilename(String originalFilename){
+    //     return UUID.randomUUID().toString().concat(getFileExtension(originalFilename));
+    // }
 
-    public String downloadImage(String filename){
-        return uploadService.getFileUrl(filename);
-    }
+    // public String downloadImage(String filename){
+    //     return uploadService.getFileUrl(filename);
+    // }
 
-    private String uploadImage(MultipartFile multipartFile, String filename){
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(multipartFile.getSize());
-        objectMetadata.setContentType(multipartFile.getContentType());
-        try (InputStream inputStream = multipartFile.getInputStream()){
-            uploadService.uploadFile(inputStream, objectMetadata, filename);
-        } catch (IOException e) {
-            throw new IllegalArgumentException(String.format("파일 변환 중 에러 발생  %s", multipartFile.getOriginalFilename()));
-        }
-        return uploadService.getFileUrl(filename);
-    }
+    // private String uploadImage(MultipartFile multipartFile, String filename){
+    //     ObjectMetadata objectMetadata = new ObjectMetadata();
+    //     objectMetadata.setContentLength(multipartFile.getSize());
+    //     objectMetadata.setContentType(multipartFile.getContentType());
+    //     try (InputStream inputStream = multipartFile.getInputStream()){
+    //         uploadService.uploadFile(inputStream, objectMetadata, filename);
+    //     } catch (IOException e) {
+    //         throw new IllegalArgumentException(String.format("파일 변환 중 에러 발생  %s", multipartFile.getOriginalFilename()));
+    //     }
+    //     return uploadService.getFileUrl(filename);
+    // }
 
     public PieceCollection getCollection(Long collectionId) {
         PieceCollection pieceCollection = collectionRepository.findByCollectionId(collectionId).orElseThrow(() -> new NotFoundException("wrong collectionId"));

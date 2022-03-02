@@ -3,8 +3,8 @@ package com.gotgam.bansi.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
-import com.amazonaws.services.kms.model.NotFoundException;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
@@ -20,6 +20,7 @@ import com.gotgam.bansi.respository.WhoKeywordRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,12 +29,13 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 public class PieceService {
-    final private PieceRepository pieceRepository;
-    final private KeywordRepository keywordRepository;
-    final private WhoKeywordRepository whoKeywordRepository;
-    final private OptionalKeywordRepository opKeywordRepository;
-    final private UserRepository userRepository;
-    final private ImageService imageService;
+    private final PieceRepository pieceRepository;
+    private final KeywordRepository keywordRepository;
+    private final WhoKeywordRepository whoKeywordRepository;
+    private final OptionalKeywordRepository opKeywordRepository;
+    private final UserRepository userRepository;
+    private final ImageService imageService;
+    private final Integer RANDOM_PIECES = 6;
 
     public PieceService(PieceRepository pieceRepository, KeywordRepository keywordRepository, WhoKeywordRepository whoKeywordRepository, OptionalKeywordRepository optionalKeywordRepository, UserRepository userRepository, ImageService imageService){
         this.pieceRepository = pieceRepository;
@@ -49,13 +51,13 @@ public class PieceService {
     }
 
     public List<Piece> findPieceByUserId(String userId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new org.webjars.NotFoundException("wrong token"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("wrong token"));
         List<Piece> pieces = pieceRepository.findByUser(user);
         return pieces;
     }
 
     public Piece updatePiece(Long pieceId, Piece piece) {
-        Piece oPiece = pieceRepository.findById(pieceId).orElseThrow(() -> new org.webjars.NotFoundException("wrong pieceId"));
+        Piece oPiece = pieceRepository.findById(pieceId).orElseThrow(() -> new NotFoundException("wrong pieceId"));
         oPiece.withContent(piece.getContent())
               .withLatitude(piece.getLatitude())
               .withLongitude(piece.getLongitude());
@@ -87,11 +89,26 @@ public class PieceService {
         piece.setOpKeywords(opKeywords);
         piece.setWhos(whos);
         piece.setImages(images);
-        // piece.setImages(pieceRequest.getImages());
 
         log.info(pieceRequest.getAddress() + " " + piece.getAddress());
 
         pieceRepository.save(piece.withCreatedAt(new Date()));
         return piece;
+    }
+
+    public List<Piece> findRandomPieces(){
+        Long maxId = pieceRepository.getMaxId();
+        log.info(String.valueOf(maxId));
+
+        Random rand = new Random(System.currentTimeMillis());
+        List<Long> ids = new ArrayList<>();
+        for(int i = 0; i < RANDOM_PIECES; i++){
+            ids.add(rand.nextLong() % maxId);
+        }
+        return pieceRepository.findAllById(ids);
+    }
+
+    public void deletePiece(Long pieceId){
+        pieceRepository.deleteById(pieceId);
     }
 }

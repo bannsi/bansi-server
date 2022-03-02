@@ -3,6 +3,7 @@ package com.gotgam.bansi.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,7 +53,7 @@ public class Piece {
     private List<OptionalKeyword> opKeywords;
     @ManyToMany
     private List<WhoKeyword> whos;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Image> images;
     
     

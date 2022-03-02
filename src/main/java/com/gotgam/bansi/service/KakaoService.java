@@ -38,7 +38,7 @@ public class KakaoService {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("grant_type=authorization_code");
             stringBuilder.append("&client_id="+APIKEY);
-            stringBuilder.append("&redirect_uri=http://localhost:5555/accounts/v1/kakao/login/");
+            stringBuilder.append("&redirect_uri=http://localhost:8080/accounts/v1/kakao/login/");
             stringBuilder.append("&code=" + authCode);
             bufferedWriter.write(stringBuilder.toString());           
             bufferedWriter.flush();
@@ -96,12 +96,15 @@ public class KakaoService {
             JsonObject jsonObject = (JsonObject)JsonParser.parseString(result);
 
             String kakaoUserId = jsonObject.get("id").getAsString();
-            String nickname = jsonObject.get("kakao_account").getAsJsonObject().get("profile").getAsJsonObject().get("nickname").getAsString();
+            JsonObject profile = jsonObject.get("kakao_account").getAsJsonObject().get("profile").getAsJsonObject();
+            String nickname = profile.get("nickname").getAsString();
+            String imageUrl = profile.get("profile_image_url").getAsString();
 
             log.info("id: " + kakaoUserId + ", nickname: " + nickname);
             userInfo.put("accessToken", accessToken);
             userInfo.put("userId", kakaoUserId);
             userInfo.put("nickname", nickname);
+            userInfo.put("encodedImage", imageUrl);
         } catch(IOException e){
             e.printStackTrace();;
         }

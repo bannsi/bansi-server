@@ -2,21 +2,25 @@ package com.gotgam.bansi.service;
 
 import java.util.Optional;
 
+import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.User;
+import com.gotgam.bansi.respository.ImageRepository;
 import com.gotgam.bansi.respository.UserRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
+import lombok.RequiredArgsConstructor;
+
 @Transactional
+@RequiredArgsConstructor
 @Service
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
 
-    public User CreateUser(String kakaoId, String nickname){
+    public User CreateUser(String kakaoId, String nickname, String encodedImage){
         Optional<User> opUser = userRepository.findByKakaoId(kakaoId);
         User user = new User();
         if(!opUser.isPresent()){
@@ -25,6 +29,12 @@ public class UserService {
         } else {
             user = opUser.get();
         }
+        if(user.getImage() != null){
+            imageRepository.delete(user.getImage());
+        }
+        Image image = imageRepository.save(new Image(encodedImage));
+        user.setImage(image);
+        userRepository.save(user);
         return user;
     }
 

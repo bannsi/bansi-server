@@ -57,7 +57,8 @@ public class AccountController {
 
         User user = userService.CreateUser(
             String.valueOf(userInfo.get("userId")), 
-            String.valueOf(userInfo.get("nickname")));
+            String.valueOf(userInfo.get("nickname")),
+            String.valueOf(userInfo.get("encodedImage")));
         String token = jwtUtil.generateToken(user);
         return ResponseEntity.ok().body(new ResponseDTO("user created", token));
     }

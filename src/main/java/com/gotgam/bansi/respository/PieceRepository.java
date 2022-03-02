@@ -5,8 +5,12 @@ import java.util.List;
 import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.User;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-public interface PieceRepository extends CrudRepository<Piece,Long>{
+public interface PieceRepository extends JpaRepository<Piece,Long>{
     List<Piece> findByUser(User user);
+    List<Piece> findAllById(Iterable<Long> ids);
+    @Query(value = "SELECT coalesce(max(pieces.piece_id), 0) FROM pieces", nativeQuery = true)
+    Long getMaxId();
 }
