@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.gotgam.bansi.DAO.PieceThumnail;
 import com.gotgam.bansi.DTO.PieceDTO.ListPieceResponse;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.DTO.PieceDTO.PieceResponse;
+import com.gotgam.bansi.DTO.PieceDTO.PieceThumnailResponse;
 import com.gotgam.bansi.DTO.PieceLikeDTO.PieceLikeResponse;
 import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.model.Piece;
@@ -29,16 +31,15 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
 
-
 @Slf4j
 @RestController
 @SecurityRequirement(name = "Authorization")
 @RequestMapping(value = "/pieces/v1")
 public class PieceController {
-    private JwtUtil jwtUtil;
-    private PieceService pieceService;
-    private PieceLikeService pieceLikeService;
-    private UserService userService;
+    private final JwtUtil jwtUtil;
+    private final PieceService pieceService;
+    private final PieceLikeService pieceLikeService;
+    private final UserService userService;
 
     public PieceController(JwtUtil jwtUtil, PieceService pieceService, PieceLikeService pieceLikeService, UserService userService){
         this.jwtUtil = jwtUtil;
@@ -47,15 +48,23 @@ public class PieceController {
         this.userService = userService;
     }
     
-    @RequestMapping(value = "/{kakaoId}", method = RequestMethod.GET)
-    public ResponseEntity<ListPieceResponse> getPiecesByUserId(@PathVariable String kakaoId){
-        List<Piece> pieces = pieceService.findPieceByUserId(kakaoId);
-        return ResponseEntity.ok().body(new ListPieceResponse("S00", "message", pieces));
+    @RequestMapping(value = "/user/{kakaoId}", method = RequestMethod.GET)
+    public ResponseEntity<PieceThumnailResponse> getPiecesByUserId(@PathVariable String kakaoId){
+        User user = userService.getUserFromId(kakaoId);
+        List<PieceThumnail> thumnails = pieceService.findThumnails(user);
+        return ResponseEntity.ok().body(new PieceThumnailResponse("S00", "message", thumnails));
     }
 
+    @RequestMapping(value="/{pieceId}", method=RequestMethod.GET)
+    public ResponseEntity<PieceResponse> getPiece(@PathVariable Long pieceId) {
+        Piece piece = pieceService.getPieceByPieceId(pieceId);
+        return ResponseEntity.ok().body(new PieceResponse("S00", "piece", piece));
+    }
+    
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<PieceResponse> savePiece(@RequestHeader HttpHeaders headers, @Valid @RequestBody PieceRequest pieceRequest){
         String kakaoId = jwtUtil.getUsernameFromTokenStr(headers.getFirst("Authorization"));
+        log.info(pieceRequest.getPlaceUrl());
         log.info(pieceRequest.getAddress());
         log.info("keyword");
         log.info(pieceRequest.getKeywords().toString());
@@ -66,7 +75,7 @@ public class PieceController {
     }
     
     @RequestMapping(value="/{pieceId}/", method=RequestMethod.PUT)
-    public ResponseEntity<PieceResponse> updatePiece(@PathVariable Long pieceId, @RequestBody Piece piece) {
+    public ResponseEntity<PieceResponse> updatePiece(@PathVariable Long pieceId, @Valid @RequestBody Piece piece) {
         pieceService.updatePiece(pieceId, piece);
         return ResponseEntity.ok().body(new PieceResponse("S00", "piece updated", piece));
     }

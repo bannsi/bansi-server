@@ -4,33 +4,11 @@ import java.util.List;
 
 import com.gotgam.bansi.DTO.KeywordDTO.KeywordRequest;
 import com.gotgam.bansi.model.Keyword;
-import com.gotgam.bansi.respository.KeywordRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-@Service
-@Transactional
-public class KeywordService {
-    @Autowired
-    private KeywordRepository keywordRepository;
-
-    public List<Keyword> listKeywords(List<Long> ids){
-        List<Keyword> keywords = keywordRepository.findAllById(ids);
-        return keywords;
-    }
-
-    public void deleteKeyword(Long keywordId){
-        keywordRepository.deleteById(keywordId);
-    }
-
-    public List<Keyword> listKeywordsById(List<Long> ids){
-        return keywordRepository.findAllById(ids);
-    }
-
-    public Keyword createKeyword(KeywordRequest keywordDto){
-        Keyword keyword = new Keyword(keywordDto.getName());
-        return keywordRepository.save(keyword);
-    }
+public interface KeywordService {
+    List<Keyword> listKeywords(List<Long> ids);
+    void deleteKeyword(Long keywordId);
+    List<Keyword> listKeywordsById(List<Long> ids);
+    Keyword createKeyword(KeywordRequest keywordDto);
+    List<Keyword> findAll();
 }

@@ -8,6 +8,7 @@ import com.gotgam.bansi.DTO.OptionalKeywordDTO.OptionalKeywordResponse;
 import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.model.OptionalKeyword;
 import com.gotgam.bansi.service.OptionalKeywordService;
+import com.gotgam.bansi.service.OptionalKeywordServiceImpl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +23,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "Authorization")
 @RequestMapping(value = "/opKeyword/v1")
 public class OptionalKeywordController {
-    private OptionalKeywordService opKeywordService;
+    private final OptionalKeywordService opKeywordService;
     
-    public OptionalKeywordController(OptionalKeywordService opKeywordService){
+    public OptionalKeywordController(OptionalKeywordServiceImpl opKeywordService){
         this.opKeywordService = opKeywordService;
     }
 

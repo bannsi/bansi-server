@@ -149,7 +149,7 @@ public class PieceControllerTest {
         reqBody.put("content", "test content");
         reqBody.put("latitude", 1.23333);
         reqBody.put("longitude", 24.3333);
-        reqBody.put("address", "부산광역시 금정구");
+        reqBody.put("address", "  ");
         reqBody.put("addressDetail", "금단로 38");
         reqBody.put("placeUrl", " ");
         reqBody.put("keywords", keywords);
