@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.gotgam.bansi.DAO.PieceThumnail;
 import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.model.OptionalKeyword;
@@ -102,6 +103,14 @@ public class PieceDTO {
                 images.add(image.getEncoded());
             }
             this.images = images;
+        }
+    }
+    @Getter
+    public static class PieceThumnailResponse extends ResponseDTO {
+        private List<PieceThumnail> body;
+        public PieceThumnailResponse(String code, String message, List<PieceThumnail> body){
+            super(code, message);
+            this.body = body;
         }
     }
 }

@@ -6,15 +6,16 @@ import com.gotgam.bansi.DTO.KeywordDTO.KeywordRequest;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.respository.KeywordRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class KeywordService {
-    @Autowired
-    private KeywordRepository keywordRepository;
+    private final KeywordRepository keywordRepository;
 
     public List<Keyword> listKeywords(List<Long> ids){
         List<Keyword> keywords = keywordRepository.findAllById(ids);

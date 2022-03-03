@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import com.gotgam.bansi.DAO.PieceThumnail;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
@@ -22,12 +23,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PieceService {
     private final PieceRepository pieceRepository;
     private final KeywordRepository keywordRepository;
@@ -37,14 +40,6 @@ public class PieceService {
     private final ImageService imageService;
     private final Integer RANDOM_PIECES = 6;
 
-    public PieceService(PieceRepository pieceRepository, KeywordRepository keywordRepository, WhoKeywordRepository whoKeywordRepository, OptionalKeywordRepository optionalKeywordRepository, UserRepository userRepository, ImageService imageService){
-        this.pieceRepository = pieceRepository;
-        this.keywordRepository = keywordRepository;
-        this.whoKeywordRepository = whoKeywordRepository;
-        this.opKeywordRepository = optionalKeywordRepository;
-        this.userRepository = userRepository;
-        this.imageService = imageService;
-    }
     public Piece getPieceByPieceId(Long pieceId) {
         Piece piece = pieceRepository.findById(pieceId).orElseThrow(() -> new NotFoundException("wrong pieceId"));
         return piece;
@@ -108,5 +103,15 @@ public class PieceService {
 
     public void deletePiece(Long pieceId){
         pieceRepository.deleteById(pieceId);
+    }
+
+    public List<PieceThumnail> findThumnails(User user){
+        List<Piece> pieces = pieceRepository.findByUser(user);
+        List<PieceThumnail> thumnails = new ArrayList<>();
+        for(Piece piece : pieces){
+            thumnails.add(new PieceThumnail(piece.getPieceId(), piece.getImages().get(0).getEncoded()));
+
+        }
+        return thumnails;
     }
 }

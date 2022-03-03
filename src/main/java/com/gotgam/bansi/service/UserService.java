@@ -13,9 +13,9 @@ import org.webjars.NotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
+@Service
 @Transactional
 @RequiredArgsConstructor
-@Service
 public class UserService {
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;

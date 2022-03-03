@@ -11,14 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class OptionalKeywordService {
-    private OptionalKeywordRepository repository;
-
-    public OptionalKeywordService(OptionalKeywordRepository repository){
-        this.repository = repository;
-    }
+    private final OptionalKeywordRepository repository;
 
     public OptionalKeyword createOpKeyword(OptionalKeywordRequest opKeywordDto){
         OptionalKeyword opKeyword = new OptionalKeyword();

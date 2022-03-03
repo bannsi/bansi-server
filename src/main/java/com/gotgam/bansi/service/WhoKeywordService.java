@@ -7,14 +7,15 @@ import com.gotgam.bansi.model.WhoKeyword;
 import com.gotgam.bansi.respository.WhoKeywordRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class WhoKeywordService {
     private final WhoKeywordRepository whoKeywordRepository;
-
-    public WhoKeywordService(WhoKeywordRepository whoKeywordRepository){
-        this.whoKeywordRepository = whoKeywordRepository;
-    }
 
     public WhoKeyword createWhoKeyword(WhoKeywordRequest whoKeywordDto){
         WhoKeyword whoKeyword = new WhoKeyword(whoKeywordDto.getName());
