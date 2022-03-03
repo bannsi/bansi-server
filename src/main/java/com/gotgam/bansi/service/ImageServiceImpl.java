@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ImageServiceImp implements ImageService {
+public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
     
-    public ImageServiceImp(ImageRepository imageRepository){
+    public ImageServiceImpl(ImageRepository imageRepository){
         this.imageRepository = imageRepository;
     }
 

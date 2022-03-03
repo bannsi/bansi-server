@@ -14,11 +14,8 @@ import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.service.PieceLikeService;
-import com.gotgam.bansi.service.PieceLikeServiceImpl;
 import com.gotgam.bansi.service.PieceService;
-import com.gotgam.bansi.service.PieceServiceImpl;
 import com.gotgam.bansi.service.UserService;
-import com.gotgam.bansi.service.UserServiceImpl;
 import com.gotgam.bansi.util.JwtUtil;
 
 import org.springframework.http.HttpHeaders;
@@ -44,7 +41,7 @@ public class PieceController {
     private final PieceLikeService pieceLikeService;
     private final UserService userService;
 
-    public PieceController(JwtUtil jwtUtil, PieceServiceImpl pieceService, PieceLikeServiceImpl pieceLikeService, UserServiceImpl userService){
+    public PieceController(JwtUtil jwtUtil, PieceService pieceService, PieceLikeService pieceLikeService, UserService userService){
         this.jwtUtil = jwtUtil;
         this.pieceService = pieceService;
         this.pieceLikeService = pieceLikeService;
@@ -67,6 +64,7 @@ public class PieceController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<PieceResponse> savePiece(@RequestHeader HttpHeaders headers, @Valid @RequestBody PieceRequest pieceRequest){
         String kakaoId = jwtUtil.getUsernameFromTokenStr(headers.getFirst("Authorization"));
+        log.info(pieceRequest.getPlaceUrl());
         log.info(pieceRequest.getAddress());
         log.info("keyword");
         log.info(pieceRequest.getKeywords().toString());
@@ -77,7 +75,7 @@ public class PieceController {
     }
     
     @RequestMapping(value="/{pieceId}/", method=RequestMethod.PUT)
-    public ResponseEntity<PieceResponse> updatePiece(@PathVariable Long pieceId, @RequestBody Piece piece) {
+    public ResponseEntity<PieceResponse> updatePiece(@PathVariable Long pieceId, @Valid @RequestBody Piece piece) {
         pieceService.updatePiece(pieceId, piece);
         return ResponseEntity.ok().body(new PieceResponse("S00", "piece updated", piece));
     }

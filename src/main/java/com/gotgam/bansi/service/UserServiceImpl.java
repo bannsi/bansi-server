@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(String kakaoId, User newUser){
+    public User updateUser(String kakaoId, User newUser) {
         User user = getUserFromId(kakaoId);
         user.setNickname(newUser.getNickname());
         userRepository.save(user);

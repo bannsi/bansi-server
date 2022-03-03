@@ -10,14 +10,4 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @WebMvcTest(controllers = AccountController.class)
 @WebAppConfiguration
 public class AccountControllerTest {
-    // @Autowired
-    // private MockMvc mvc;
-    
-    // @Test
-    // public void helloTest() throws Exception {
-    //     String response = "hello";
-    //     mvc.perform(get("/hello"))
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().string(response));
-    // }
 }
