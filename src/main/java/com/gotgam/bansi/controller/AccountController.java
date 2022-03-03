@@ -9,7 +9,6 @@ import com.gotgam.bansi.service.KakaoService;
 import com.gotgam.bansi.service.UserService;
 import com.gotgam.bansi.util.JwtUtil;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -26,16 +25,16 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(value = "/accounts/v1")
 public class AccountController {
+    private final KakaoService kakaoService;
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
 
-    @Autowired
-    private KakaoService kakaoService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
+    public AccountController(KakaoService kakaoService, UserService userService, JwtUtil jwtUtil){
+        this.kakaoService = kakaoService;
+        this.userService = userService;
+        this.jwtUtil = jwtUtil;
+    }
+    
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello(){
         return "hello";

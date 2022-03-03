@@ -14,8 +14,11 @@ import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.service.PieceLikeService;
+import com.gotgam.bansi.service.PieceLikeServiceImpl;
 import com.gotgam.bansi.service.PieceService;
+import com.gotgam.bansi.service.PieceServiceImpl;
 import com.gotgam.bansi.service.UserService;
+import com.gotgam.bansi.service.UserServiceImpl;
 import com.gotgam.bansi.util.JwtUtil;
 
 import org.springframework.http.HttpHeaders;
@@ -31,19 +34,17 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
 
-
-
 @Slf4j
 @RestController
 @SecurityRequirement(name = "Authorization")
 @RequestMapping(value = "/pieces/v1")
 public class PieceController {
-    private JwtUtil jwtUtil;
-    private PieceService pieceService;
-    private PieceLikeService pieceLikeService;
-    private UserService userService;
+    private final JwtUtil jwtUtil;
+    private final PieceService pieceService;
+    private final PieceLikeService pieceLikeService;
+    private final UserService userService;
 
-    public PieceController(JwtUtil jwtUtil, PieceService pieceService, PieceLikeService pieceLikeService, UserService userService){
+    public PieceController(JwtUtil jwtUtil, PieceServiceImpl pieceService, PieceLikeServiceImpl pieceLikeService, UserServiceImpl userService){
         this.jwtUtil = jwtUtil;
         this.pieceService = pieceService;
         this.pieceLikeService = pieceLikeService;

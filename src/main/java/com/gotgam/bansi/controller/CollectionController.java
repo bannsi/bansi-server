@@ -10,7 +10,6 @@ import com.gotgam.bansi.model.PieceCollection;
 import com.gotgam.bansi.service.PieceCollectionService;
 import com.gotgam.bansi.util.JwtUtil;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,11 +26,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "Authorization")
 @RequestMapping(value = "/collections/v1")
 public class CollectionController {
-    @Autowired
-    private JwtUtil jwtUtil;
-    
-    @Autowired
-    private PieceCollectionService collectionService;
+    private final JwtUtil jwtUtil;
+    private final PieceCollectionService collectionService;
+
+    public CollectionController(JwtUtil jwtUtil, PieceCollectionService collectionService){
+        this.jwtUtil = jwtUtil;
+        this.collectionService = collectionService;   
+    }
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello(){

@@ -2,14 +2,13 @@ package com.gotgam.bansi.controller;
 
 import java.util.List;
 
+import com.gotgam.bansi.DTO.KeywordDTO.KeywordRequest;
 import com.gotgam.bansi.DTO.KeywordDTO.KeywordResponse;
 import com.gotgam.bansi.DTO.KeywordDTO.ListKeywordResponse;
 import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.model.Keyword;
-import com.gotgam.bansi.respository.KeywordRepository;
 import com.gotgam.bansi.service.KeywordService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,21 +22,21 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "Authorization")
 @RequestMapping(value = "/pieces/v1/keyword")
 public class KeywordController {
-    @Autowired
-    private KeywordRepository keywordRepository;
-    
-    @Autowired
-    private KeywordService keywordService;
+    private final KeywordService keywordService;
+
+    public KeywordController(KeywordService keywordService){
+        this.keywordService = keywordService;
+    }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<ListKeywordResponse> listKeywords(){
-        List<Keyword> keywords = keywordRepository.findAll();
+        List<Keyword> keywords = keywordService.findAll();
         return ResponseEntity.ok().body(new ListKeywordResponse("S00", "keywords", keywords));
     }
     
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<KeywordResponse> createKeyword(@RequestBody Keyword keyword){
-        keywordRepository.save(keyword);
+    public ResponseEntity<KeywordResponse> createKeyword(@RequestBody KeywordRequest keywordDto){
+        Keyword keyword = keywordService.createKeyword(keywordDto);
         return ResponseEntity.ok().body(new KeywordResponse("S00", "keyword is created", keyword));
     }
 

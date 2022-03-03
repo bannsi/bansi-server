@@ -1,52 +1,9 @@
 package com.gotgam.bansi.service;
 
-import java.util.Optional;
-
-import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.User;
-import com.gotgam.bansi.respository.ImageRepository;
-import com.gotgam.bansi.respository.UserRepository;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.webjars.NotFoundException;
-
-import lombok.RequiredArgsConstructor;
-
-@Service
-@Transactional
-@RequiredArgsConstructor
-public class UserService {
-    private final UserRepository userRepository;
-    private final ImageRepository imageRepository;
-
-    public User CreateUser(String kakaoId, String nickname, String encodedImage){
-        Optional<User> opUser = userRepository.findByKakaoId(kakaoId);
-        User user = new User();
-        if(!opUser.isPresent()){
-            user.withKakaoId(kakaoId).withNickname(nickname);
-            userRepository.save(user);
-        } else {
-            user = opUser.get();
-        }
-        if(user.getImage() != null){
-            imageRepository.delete(user.getImage());
-        }
-        Image image = imageRepository.save(new Image(encodedImage));
-        user.setImage(image);
-        userRepository.save(user);
-        return user;
-    }
-
-    public User getUserFromId(String kakaoId){
-        User user = userRepository.findByKakaoId(kakaoId).orElseThrow(() -> new NotFoundException("wrong user id"));
-        return user;
-    }
-    
-    public User updateUser(String kakaoId, User newUser) throws Exception{
-        User user = getUserFromId(kakaoId);
-        user.setNickname(newUser.getNickname());
-        userRepository.save(user);
-        return user;
-    }
+public interface UserService {
+    User CreateUser(String kakaoId, String nickname, String encodedImage);   
+    User getUserFromId(String kakaoId);
+    User updateUser(String kakaoId, User newUser);
 }
