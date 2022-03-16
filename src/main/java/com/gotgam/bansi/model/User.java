@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -27,8 +26,8 @@ public class User {
     private boolean enabled = true;
     @Column(name="created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-    @OneToOne
-    private Image image;
+    @Column(columnDefinition = "LONGTEXT")
+    private String image;
 
     
     public User withKakaoId(String kakaoId) {

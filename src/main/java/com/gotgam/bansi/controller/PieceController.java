@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.gotgam.bansi.DAO.PieceThumnail;
+import com.gotgam.bansi.DTO.ImageDTO.PieceThumbnail;
 import com.gotgam.bansi.DTO.PieceDTO.ListPieceResponse;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.DTO.PieceDTO.PieceResponse;
-import com.gotgam.bansi.DTO.PieceDTO.PieceThumnailResponse;
+import com.gotgam.bansi.DTO.PieceDTO.PieceThumbnailResponse;
 import com.gotgam.bansi.DTO.PieceLikeDTO.PieceLikeResponse;
 import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.model.Piece;
@@ -49,10 +49,10 @@ public class PieceController {
     }
     
     @RequestMapping(value = "/user/{kakaoId}", method = RequestMethod.GET)
-    public ResponseEntity<PieceThumnailResponse> getPiecesByUserId(@PathVariable String kakaoId){
+    public ResponseEntity<PieceThumbnailResponse> getPiecesByUserId(@PathVariable String kakaoId){
         User user = userService.getUserFromId(kakaoId);
-        List<PieceThumnail> thumnails = pieceService.findThumnails(user);
-        return ResponseEntity.ok().body(new PieceThumnailResponse("S00", "message", thumnails));
+        List<PieceThumbnail> thumbnails = pieceService.findThumbnails(user);
+        return ResponseEntity.ok().body(new PieceThumbnailResponse("S00", "message", thumbnails));
     }
 
     @RequestMapping(value="/{pieceId}", method=RequestMethod.GET)
@@ -64,12 +64,6 @@ public class PieceController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<PieceResponse> savePiece(@RequestHeader HttpHeaders headers, @Valid @RequestBody PieceRequest pieceRequest){
         String kakaoId = jwtUtil.getUsernameFromTokenStr(headers.getFirst("Authorization"));
-        log.info(pieceRequest.getPlaceUrl());
-        log.info(pieceRequest.getAddress());
-        log.info("keyword");
-        log.info(pieceRequest.getKeywords().toString());
-        log.info("who keyword");
-        log.info(pieceRequest.getWhos().toString());
         Piece piece = pieceService.savePiece(pieceRequest, kakaoId);
         return ResponseEntity.ok().body(new PieceResponse("S00", "saved", piece));
     }
@@ -94,11 +88,10 @@ public class PieceController {
         List<Piece> pieces = pieceService.findRandomPieces();
         return ResponseEntity.ok().body(new ListPieceResponse("S00", "message", pieces));
     }
-
+    
     @RequestMapping(value="/{pieceId}/", method=RequestMethod.DELETE)
     public ResponseEntity<ResponseDTO> deletePiece(@PathVariable Long pieceId) {
         pieceService.deletePiece(pieceId);
         return ResponseEntity.ok(new ResponseDTO("S00", "piece is deleted"));
     }
-    
 }

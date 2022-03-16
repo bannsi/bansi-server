@@ -8,7 +8,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.gotgam.bansi.DAO.PieceThumnail;
+import com.gotgam.bansi.DTO.ImageDTO.ImageRequest;
+import com.gotgam.bansi.DTO.ImageDTO.ImageResponse;
+import com.gotgam.bansi.DTO.ImageDTO.PieceThumbnail;
 import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.model.OptionalKeyword;
@@ -42,12 +44,14 @@ public class PieceDTO {
         @NotBlank
         private String placeUrl;
         @NotEmpty
-        private List<@NotBlank String> images;
+        private List<ImageRequest> images;
         @NotEmpty
         private List<Long> keywords;
         private List<Long> optionalKeywords;
         @NotEmpty
-        private List<Long> whos;    
+        private List<Long> whos;
+        @NotBlank
+        private String place;
     }    
 
     @Getter
@@ -79,12 +83,13 @@ public class PieceDTO {
         private Double latitude;
         private Double longitude;
         private String address;
-        private String addresssDetail; 
+        private String addressDetail; 
         private String placeUrl;
         private List<Keyword> keywords;
         private List<OptionalKeyword> optionalKeywords;
         private List<WhoKeyword> whos;
-        private List<String> images;
+        private List<ImageResponse> images;
+        private String place;
 
         public PieceResponseBody(Piece piece){
             this.pieceId = piece.getPieceId();
@@ -93,22 +98,23 @@ public class PieceDTO {
             this.latitude = piece.getLatitude();
             this.longitude = piece.getLongitude();
             this.address = piece.getAddress();
-            this.addresssDetail = piece.getAddressDetail();
+            this.addressDetail = piece.getAddressDetail();
             this.placeUrl = piece.getPlaceUrl();
             this.keywords = piece.getKeywords(); 
             this.optionalKeywords = piece.getOpKeywords();
             this.whos = piece.getWhos();
-            List<String> images = new ArrayList<>();
+            this.images = new ArrayList<>();
             for(Image image : piece.getImages()){
-                images.add(image.getEncoded());
+                this.images.add(new ImageResponse(image.getEncoded(), image.getThumbnail()));
             }
-            this.images = images;
+            if(piece.getPlace() != null)
+                this.place = piece.getPlace().getName();
         }
     }
     @Getter
-    public static class PieceThumnailResponse extends ResponseDTO {
-        private List<PieceThumnail> body;
-        public PieceThumnailResponse(String code, String message, List<PieceThumnail> body){
+    public static class PieceThumbnailResponse extends ResponseDTO {
+        private List<PieceThumbnail> body;
+        public PieceThumbnailResponse(String code, String message, List<PieceThumbnail> body){
             super(code, message);
             this.body = body;
         }

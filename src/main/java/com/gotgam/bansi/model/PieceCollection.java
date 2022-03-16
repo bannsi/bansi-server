@@ -38,4 +38,6 @@ public class PieceCollection {
     private Date endDate;
     @OneToMany
     List<Item> items;
+    @ManyToOne
+    private PlaceKeyword place;
 }

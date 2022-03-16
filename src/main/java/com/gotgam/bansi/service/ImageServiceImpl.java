@@ -3,6 +3,7 @@ package com.gotgam.bansi.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gotgam.bansi.DTO.ImageDTO.ImageRequest;
 import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.respository.ImageRepository;
 
@@ -22,15 +23,15 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Image saveImage(String encoded){
-        return imageRepository.save(new Image(encoded));
+    public Image saveImage(ImageRequest imageDTO){
+        return imageRepository.save(new Image(imageDTO.getImage(), imageDTO.getThumbnail()));
     }
 
     @Override
-    public List<Image> saveAllImages(List<String> encodeds){
+    public List<Image> saveAllImages(List<ImageRequest> imageDTOs){
         List<Image> images = new ArrayList<>();
-        for(String encoded : encodeds){
-            images.add(new Image(encoded));
+        for(ImageRequest imageDTO : imageDTOs){
+            images.add(new Image(imageDTO.getImage(), imageDTO.getThumbnail()));
         }
         return Streamable.of(imageRepository.saveAll(images)).toList();
     }
