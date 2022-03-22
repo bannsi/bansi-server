@@ -1,7 +1,7 @@
 package com.gotgam.bansi.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class PieceCollectionServiceImpl implements PieceCollectionService {
 
     @Override
     public PieceCollection saveCollection(String userId, PieceCollectionRequest collectionRequest){
-        Map<Date, List<Item>> dateItemMap = new HashMap<>();
+        Map<LocalDate, List<Item>> dateItemMap = new HashMap<>();
         List<Item> totalItems = new ArrayList<>();
 
         for(ItemRequest itemDto : collectionRequest.getItems()){

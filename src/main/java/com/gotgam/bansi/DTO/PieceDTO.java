@@ -1,7 +1,7 @@
 package com.gotgam.bansi.DTO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -18,7 +18,6 @@ import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.WhoKeyword;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,8 +30,8 @@ public class PieceDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class PieceRequest {
-        @DateTimeFormat(iso = ISO.DATE)
-        private Date date;
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        private LocalDate date;
         @NotBlank
         private String content;
         @NotNull
@@ -81,7 +80,7 @@ public class PieceDTO {
     public static class PieceResponseBody{
         private Long pieceId;
         private String content;
-        private Date date;
+        private LocalDate date;
         private Double latitude;
         private Double longitude;
         private String address;

@@ -1,13 +1,12 @@
 package com.gotgam.bansi.controller;
 
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(controllers = AccountController.class)
+@Transactional
+@SpringBootTest
 @WebAppConfiguration
 public class AccountControllerTest {
 }

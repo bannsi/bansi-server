@@ -1,6 +1,7 @@
 package com.gotgam.bansi.model;
 
-import java.util.Date;
+
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,9 +31,9 @@ public class Item {
     @Column(name = "order_num", nullable = false)
     private Integer orderNum;
     @Column(name = "date", nullable = false)
-    private Date date;
+    private LocalDate date;
 
-    public Item(String content, Piece piece, Integer orderNum, Date date){
+    public Item(String content, Piece piece, Integer orderNum, LocalDate date){
         this.content = content;
         this.piece = piece;
         this.orderNum = orderNum;

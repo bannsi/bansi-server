@@ -1,5 +1,6 @@
 package com.gotgam.bansi.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Piece {
     @Column(name="content")
     private String content;
     @Column(name = "date", nullable = false)
-    private Date date;
+    private LocalDate date;
     @CreatedDate
     @Column(name="created_at", nullable = false)
     private Date createdAt;
@@ -66,7 +67,7 @@ public class Piece {
         return this;
     }
     
-    public Piece withDate(Date date){
+    public Piece withDate(LocalDate date){
         this.setDate(date);
         return this;
     }

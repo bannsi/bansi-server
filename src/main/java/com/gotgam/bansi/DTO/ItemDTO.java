@@ -1,14 +1,13 @@
 package com.gotgam.bansi.DTO;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import com.gotgam.bansi.model.Item;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +15,7 @@ import lombok.Setter;
 public class ItemDTO {
     @Getter
     @Setter
+    @AllArgsConstructor
     @NoArgsConstructor
     public static class ItemRequest {
         private String content;
@@ -23,8 +23,7 @@ public class ItemDTO {
         private Long pieceId;
         @NotNull
         private Integer orederNum;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private Date date;
+        private LocalDate date;
     }
     @Getter
     public static class ItemResponse extends ResponseDTO {

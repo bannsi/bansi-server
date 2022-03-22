@@ -1,15 +1,12 @@
 package com.gotgam.bansi.DTO;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
 import com.gotgam.bansi.DTO.ItemDTO.ItemRequest;
 import com.gotgam.bansi.model.PieceCollection;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,10 +20,8 @@ public class PieceCollectionDTO {
         private String title;
         private String coverImage;
         private List<ItemRequest> items;
-        @DateTimeFormat(iso = ISO.DATE)
-        private Date startDate;
-        @DateTimeFormat(iso = ISO.DATE)
-        private Date endDate;
+        private LocalDate startDate;
+        private LocalDate endDate;
         @NotBlank
         private String place;
     }   

@@ -1,6 +1,6 @@
 package com.gotgam.bansi.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -33,9 +33,9 @@ public class PieceCollection {
     @Column(name = "cover_image")
     private String coverImage;
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDate startDate;
     @Column(name = "end_date")
-    private Date endDate;
+    private LocalDate endDate;
     @OneToMany
     List<Item> items;
     @ManyToOne
