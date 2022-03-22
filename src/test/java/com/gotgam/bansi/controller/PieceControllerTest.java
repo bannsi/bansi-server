@@ -9,8 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gotgam.bansi.DTO.ImageDTO.ImageRequest;
 import com.gotgam.bansi.DTO.OptionalKeywordDTO.OptionalKeywordRequest;
 import com.gotgam.bansi.DTO.WhoKeywordDTO.WhoKeywordRequest;
@@ -108,16 +107,16 @@ public class PieceControllerTest {
         reqBody.put("images", images);
         reqBody.put("place", "busan");
 
-        Gson gson = new Gson();
-        JsonObject json = gson.toJsonTree(reqBody).getAsJsonObject();
-
+        // Gson gson = new Gson();
+        // JsonObject json = gson.toJsonTree(reqBody).getAsJsonObject();
+        String json = new ObjectMapper().writeValueAsString(reqBody);
         final ResultActions actions = mvc.perform(
             post("/pieces/v1/")
                 .header(HttpHeaders.AUTHORIZATION, testToken)
                 .contentType(MediaType.APPLICATION_JSON)  
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(json.toString())
+                .content(json)
                             
         );
     
@@ -158,16 +157,14 @@ public class PieceControllerTest {
         reqBody.put("whos", whos);
         reqBody.put("images", images);
 
-        Gson gson = new Gson();
-        JsonObject json = gson.toJsonTree(reqBody).getAsJsonObject();
-
+        String json = new ObjectMapper().writeValueAsString(reqBody);
         final ResultActions actions = mvc.perform(
             post("/pieces/v1/")
                 .header(HttpHeaders.AUTHORIZATION, testToken)
                 .contentType(MediaType.APPLICATION_JSON)  
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(json.toString())
+                .content(json)
                             
         );
     

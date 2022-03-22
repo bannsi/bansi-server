@@ -9,9 +9,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,12 +57,9 @@ public class KakaoServiceImpl implements KakaoService {
                 result += line;
             }
             log.info(result);
-            JsonObject jsonObject = (JsonObject)JsonParser.parseString(result);
-            // JsonElement jsonElement = JsonParser.parseString(result);
+            JsonNode jsonNode = new ObjectMapper().readTree(result);
 
-            // accessToken = jsonElement.getAsJsonObject().get("access_token").getAsString();
-            // refreshToken = jsonElement.getAsJsonObject().get("refresh_token").getAsString();
-            accessToken = jsonObject.get("access_token").getAsString();
+            accessToken = jsonNode.get("access_token").asText();
             bufferedReader.close();
             bufferedWriter.close();
         } catch(IOException e) {
@@ -95,13 +91,12 @@ public class KakaoServiceImpl implements KakaoService {
                 result += line;
             }
             log.info("result: " + result);
-            // JsonElement jsonElement = JsonParser.parseString(result);
-            JsonObject jsonObject = (JsonObject)JsonParser.parseString(result);
-
-            String kakaoUserId = jsonObject.get("id").getAsString();
-            JsonObject profile = jsonObject.get("kakao_account").getAsJsonObject().get("profile").getAsJsonObject();
-            String nickname = profile.get("nickname").getAsString();
-            String imageUrl = profile.get("profile_image_url").getAsString();
+            
+            JsonNode jsonNode = new ObjectMapper().readTree(result);
+            String kakaoUserId = jsonNode.get("id").asText();
+            JsonNode profile = jsonNode.get("kakao_account").get("profile");
+            String nickname = profile.get("nickname").asText();
+            String imageUrl = profile.get("profile_image_url").asText();
 
             log.info("id: " + kakaoUserId + ", nickname: " + nickname);
             userInfo.put("accessToken", accessToken);
@@ -138,9 +133,9 @@ public class KakaoServiceImpl implements KakaoService {
             while((line = bufferedReader.readLine()) != null){
                 result += line;
             }
-            JsonElement jsonElement = JsonParser.parseString(result);
+            JsonNode jsonNode = new ObjectMapper().readTree(result);
 
-            authCode = jsonElement.getAsJsonObject().get("code").getAsString();
+            authCode = jsonNode.get("code").asText();
 
             bufferedReader.close();
             bufferedWriter.close();
