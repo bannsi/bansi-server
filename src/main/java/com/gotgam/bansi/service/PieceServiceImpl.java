@@ -20,6 +20,7 @@ import com.gotgam.bansi.respository.UserRepository;
 import com.gotgam.bansi.respository.WhoKeywordRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
@@ -55,6 +56,7 @@ public class PieceServiceImpl implements PieceService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Piece updatePiece(Long pieceId, Piece piece) {
         Piece oPiece = pieceRepository.findById(pieceId).orElseThrow(() -> new NotFoundException("wrong pieceId"));
         oPiece.withContent(piece.getContent())
@@ -66,6 +68,7 @@ public class PieceServiceImpl implements PieceService {
     // TODO: user는 userservice에서 가져와서 해주자
     // 읽기는 다른 서비스에서 가져와서 해주는게 좋은것 같음
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Piece savePiece(PieceRequest pieceRequest, String userId){
         User user  = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("wrong token"));
         List<Keyword> keywords = keywordRepository.findAllById(pieceRequest.getKeywords());
