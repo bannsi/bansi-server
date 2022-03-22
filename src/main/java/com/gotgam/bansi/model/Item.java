@@ -31,4 +31,11 @@ public class Item {
     private Integer orderNum;
     @Column(name = "date", nullable = false)
     private Date date;
+
+    public Item(String content, Piece piece, Integer orderNum, Date date){
+        this.content = content;
+        this.piece = piece;
+        this.orderNum = orderNum;
+        this.date = date;
+    }
 }

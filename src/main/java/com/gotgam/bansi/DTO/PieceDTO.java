@@ -20,6 +20,7 @@ import com.gotgam.bansi.model.WhoKeyword;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,7 @@ import lombok.Setter;
 public class PieceDTO {
     @Getter
     @Setter
+    @AllArgsConstructor
     @NoArgsConstructor
     public static class PieceRequest {
         @DateTimeFormat(iso = ISO.DATE)

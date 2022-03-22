@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.gotgam.bansi.DTO.ImageDTO.ImageRequest;
 import com.gotgam.bansi.DTO.OptionalKeywordDTO.OptionalKeywordRequest;
 import com.gotgam.bansi.DTO.WhoKeywordDTO.WhoKeywordRequest;
 import com.gotgam.bansi.service.KeywordService;
@@ -89,9 +90,9 @@ public class PieceControllerTest {
         opKeywordReq = opKeywordReq.substring(1, opKeywordReq.length()-1);
         String whoKeywordReq = whos.toString();
         whoKeywordReq = whoKeywordReq.substring(1, whoKeywordReq.length()-1);
-        List<String> images = new ArrayList<>();
-        images.add("test");
-        images.add("test2");
+        List<ImageRequest> images = new ArrayList<>();
+        images.add(new ImageRequest("test", true));
+        images.add(new ImageRequest("test2", false));
         
         Map<String, Object> reqBody = new HashMap<>();
         reqBody.put("date", "2022-02-02");
@@ -105,6 +106,7 @@ public class PieceControllerTest {
         reqBody.put("optionalKeywords", opKeywords);
         reqBody.put("whos", whos);
         reqBody.put("images", images);
+        reqBody.put("place", "busan");
 
         Gson gson = new Gson();
         JsonObject json = gson.toJsonTree(reqBody).getAsJsonObject();

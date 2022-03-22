@@ -29,6 +29,7 @@ public class ImageDTO {
 
     @Setter
     @Getter
+    @AllArgsConstructor
     @NoArgsConstructor
     public static class ImageRequest{
         private String image;

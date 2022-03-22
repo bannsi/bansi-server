@@ -3,7 +3,9 @@ package com.gotgam.bansi.DTO;
 import java.util.Date;
 import java.util.List;
 
-import com.gotgam.bansi.model.Item;
+import javax.validation.constraints.NotBlank;
+
+import com.gotgam.bansi.DTO.ItemDTO.ItemRequest;
 import com.gotgam.bansi.model.PieceCollection;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,11 +22,13 @@ public class PieceCollectionDTO {
     public static class PieceCollectionRequest {
         private String title;
         private String coverImage;
-        private List<Item> items;
+        private List<ItemRequest> items;
         @DateTimeFormat(iso = ISO.DATE)
         private Date startDate;
         @DateTimeFormat(iso = ISO.DATE)
         private Date endDate;
+        @NotBlank
+        private String place;
     }   
     @Getter
     public static class PieceCollectionResponse extends ResponseDTO {
