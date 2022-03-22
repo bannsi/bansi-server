@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -53,7 +54,10 @@ public class Piece {
     private List<OptionalKeyword> opKeywords;
     @ManyToMany
     private List<WhoKeyword> whos;
+    @ManyToOne
+    private PlaceKeyword place;
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "piece_id")
     private List<Image> images;
     
     

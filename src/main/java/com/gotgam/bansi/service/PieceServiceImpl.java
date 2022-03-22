@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import com.gotgam.bansi.DAO.PieceThumnail;
+import com.gotgam.bansi.DTO.ImageDTO.PieceThumbnail;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
@@ -38,6 +38,7 @@ public class PieceServiceImpl implements PieceService {
     private final OptionalKeywordRepository opKeywordRepository;
     private final UserRepository userRepository;
     private final ImageService imageService;
+    private final PlaceKeywordService placeKeywordService;
     private final Integer RANDOM_PIECES = 6;
 
     @Override
@@ -84,6 +85,7 @@ public class PieceServiceImpl implements PieceService {
             .withPlaceUrl(pieceRequest.getPlaceUrl())
             .withAddress(pieceRequest.getAddress())
             .withAddressDetail(pieceRequest.getAddressDetail());
+        piece.setPlace(placeKeywordService.getOrCreate(pieceRequest.getPlace()));
         piece.setKeywords(keywords);
         piece.setOpKeywords(opKeywords);
         piece.setWhos(whos);
@@ -112,13 +114,23 @@ public class PieceServiceImpl implements PieceService {
     }
 
     @Override
-    public List<PieceThumnail> findThumnails(User user){
+    public List<PieceThumbnail> findThumbnails(User user){
         List<Piece> pieces = pieceRepository.findByUser(user);
-        List<PieceThumnail> thumnails = new ArrayList<>();
+        List<PieceThumbnail> thumbnails = new ArrayList<>();
         for(Piece piece : pieces){
-            thumnails.add(new PieceThumnail(piece.getPieceId(), piece.getImages().get(0).getEncoded()));
+            thumbnails.add(new PieceThumbnail(piece.getPieceId(), piece.getImages().get(0).getEncoded()));
 
         }
-        return thumnails;
+        return thumbnails;
+    }
+
+    @Override
+    public List<PieceThumbnail> findByKeywordId(Long keywordId){
+            List<Piece> pieces = pieceRepository.findAllByKeywords_Id(keywordId);
+            List<PieceThumbnail> thumbnails = new ArrayList<>();
+            for(Piece piece : pieces){
+                thumbnails.add(new PieceThumbnail(piece.getPieceId(), piece.getImages().get(0).getEncoded()));
+            }
+        return thumbnails;
     }
 }

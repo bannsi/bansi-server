@@ -2,7 +2,6 @@ package com.gotgam.bansi.service;
 
 import java.util.Optional;
 
-import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.respository.ImageRepository;
 import com.gotgam.bansi.respository.UserRepository;
@@ -30,11 +29,7 @@ public class UserServiceImpl implements UserService {
         } else {
             user = opUser.get();
         }
-        if(user.getImage() != null){
-            imageRepository.delete(user.getImage());
-        }
-        Image image = imageRepository.save(new Image(encodedImage));
-        user.setImage(image);
+        user.setImage(encodedImage);
         userRepository.save(user);
         return user;
     }

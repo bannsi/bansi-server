@@ -36,7 +36,7 @@ public class KeywordController {
     
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<KeywordResponse> createKeyword(@RequestBody KeywordRequest keywordDto){
-        Keyword keyword = keywordService.createKeyword(keywordDto);
+        Keyword keyword = keywordService.createKeyword(keywordDto.getName());
         return ResponseEntity.ok().body(new KeywordResponse("S00", "keyword is created", keyword));
     }
 
