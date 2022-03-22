@@ -11,7 +11,6 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.gotgam.bansi.DTO.KeywordDTO.KeywordRequest;
 import com.gotgam.bansi.DTO.OptionalKeywordDTO.OptionalKeywordRequest;
 import com.gotgam.bansi.DTO.WhoKeywordDTO.WhoKeywordRequest;
 import com.gotgam.bansi.service.KeywordService;
@@ -76,8 +75,8 @@ public class PieceControllerTest {
     @Test
     public void pieceCreateTest() throws Exception {
         List<Long> keywords = new ArrayList<>();
-        keywords.add(keywordService.createKeyword(new KeywordRequest("test keyword1")).getId());
-        keywords.add(keywordService.createKeyword(new KeywordRequest("test keyword2")).getId());
+        keywords.add(keywordService.createKeyword("test keyword1").getId());
+        keywords.add(keywordService.createKeyword("test keyword2").getId());
         List<Long> opKeywords = new ArrayList<>();
         opKeywords.add(optionalKeywordService.createOpKeyword(new OptionalKeywordRequest("test opkey1")).getId());
         List<Long> whos = new ArrayList<>();
@@ -126,8 +125,8 @@ public class PieceControllerTest {
     @Test
     public void pieceCreateFailTest() throws Exception {
         List<Long> keywords = new ArrayList<>();
-        keywords.add(keywordService.createKeyword(new KeywordRequest("test keyword1")).getId());
-        keywords.add(keywordService.createKeyword(new KeywordRequest("test keyword2")).getId());
+        keywords.add(keywordService.createKeyword("test keyword1").getId());
+        keywords.add(keywordService.createKeyword("test keyword2").getId());
         List<Long> opKeywords = new ArrayList<>();
         opKeywords.add(optionalKeywordService.createOpKeyword(new OptionalKeywordRequest("test opkey1")).getId());
         List<Long> whos = new ArrayList<>();

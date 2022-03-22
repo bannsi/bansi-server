@@ -2,7 +2,6 @@ package com.gotgam.bansi.service;
 
 import java.util.List;
 
-import com.gotgam.bansi.DTO.KeywordDTO.KeywordRequest;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.respository.KeywordRepository;
 
@@ -39,8 +38,8 @@ public class KeywordServiceImpl implements KeywordService {
     }
 
     @Override
-    public Keyword createKeyword(KeywordRequest keywordDto){
-        Keyword keyword = new Keyword(keywordDto.getName());
+    public Keyword createKeyword(String name){
+        Keyword keyword = new Keyword(name);
         return keywordRepository.save(keyword);
     }
 }
