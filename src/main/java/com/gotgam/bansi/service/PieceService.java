@@ -15,6 +15,8 @@ public interface PieceService {
     List<Piece> findRandomPieces();
     // 필터 : 지역, 키워드, who
     List<Piece> findByPlace(String placeName);
+    List<Piece> findByKeyword(Long keywordId);
+    List<Piece> findByWho(Long whoId);
     // List<PieceThumbnail> 
     void deletePiece(Long pieceId);
     List<PieceThumbnail> findThumbnails(User user);

@@ -20,6 +20,7 @@ import com.gotgam.bansi.util.JwtUtil;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
+
+
 
 
 @Slf4j
@@ -99,5 +102,17 @@ public class PieceController {
     public ResponseEntity<ListPieceResponse> filterByPlace(@PathVariable String placeName){
         List<Piece> pieces = pieceService.findByPlace(placeName);
         return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by place", pieces));
+    }
+
+    @GetMapping(value="/who/{whoId}")
+    public ResponseEntity<ListPieceResponse> filterByWho(@PathVariable Long whoId) {
+        List<Piece> pieces = pieceService.findByWho(whoId);
+        return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by who", pieces));
+    }
+
+    @GetMapping(value="/keyword/{keywordId}")
+    public ResponseEntity<ListPieceResponse> filterByKeyword(@PathVariable Long keywordId) {
+        List<Piece> pieces = pieceService.findByKeyword(keywordId);
+        return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by keyword", pieces));
     }
 }

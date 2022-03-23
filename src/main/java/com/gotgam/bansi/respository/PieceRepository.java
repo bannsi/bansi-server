@@ -3,7 +3,6 @@ package com.gotgam.bansi.respository;
 import java.util.List;
 
 import com.gotgam.bansi.model.Piece;
-import com.gotgam.bansi.model.PlaceKeyword;
 import com.gotgam.bansi.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +14,7 @@ public interface PieceRepository extends JpaRepository<Piece,Long>{
     List<Piece> findAllByKeywords_Id(Long keywordId);
     List<Piece> findAllByOpKeywords_id(Long opKeywordId);
     List<Piece> findAllByWhos_Id(Long whoId);
-    List<Piece> findAllByPlace(PlaceKeyword placeKeyword);
+    List<Piece> findAllByPlace_Name(String placeName);
     @Query(value = "SELECT coalesce(max(pieces.piece_id), 0) FROM pieces", nativeQuery = true)
     Long getMaxId();
     @Query(value = "SELECT pieces.piece_id FROM pieces ORDER BY pieces.created_at DESC LIMIT 100", nativeQuery = true)
