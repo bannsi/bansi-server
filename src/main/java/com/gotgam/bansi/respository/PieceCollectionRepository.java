@@ -10,6 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PieceCollectionRepository extends CrudRepository<PieceCollection, Long> {
     Optional<PieceCollection> findByCollectionId(Long collectionId);
-    List<PieceCollection> findByUserKakaoId(String userId);
+    List<PieceCollection> findByUser_KakaoId(String userId);
     List<PieceCollection> findByPlace(PlaceKeyword place);
 }

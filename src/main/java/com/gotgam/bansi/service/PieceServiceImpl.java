@@ -62,7 +62,6 @@ public class PieceServiceImpl implements PieceService {
         oPiece.withContent(piece.getContent())
               .withLatitude(piece.getLatitude())
               .withLongitude(piece.getLongitude());
-        pieceRepository.save(oPiece);
         return oPiece;
     }
 

@@ -1,10 +1,13 @@
 package com.gotgam.bansi.model;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -28,7 +31,8 @@ public class User {
     private LocalDateTime createdAt = LocalDateTime.now();
     @Column(columnDefinition = "LONGTEXT")
     private String image;
-
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<ArchiveFolder> folders;
     
     public User withKakaoId(String kakaoId) {
         this.kakaoId = kakaoId;

@@ -3,9 +3,11 @@ package com.gotgam.bansi.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -18,8 +20,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class ArchiveFolder {
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User user;
     private String name;
     @ManyToMany(fetch = FetchType.EAGER)

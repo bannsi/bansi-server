@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ArchiveFolderRepository extends CrudRepository<ArchiveFolder, Long> {
-    List<ArchiveFolder> findAllByUser_Id(String userId);
+    List<ArchiveFolder> findAllByUser_KakaoId(String userId);
 }

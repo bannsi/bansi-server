@@ -74,7 +74,7 @@ public class PieceCollectionServiceImpl implements PieceCollectionService {
 
     @Override
     public List<PieceCollection> listCollections(String userId){
-        List<PieceCollection> collections = collectionRepository.findByUserKakaoId(userId);
+        List<PieceCollection> collections = collectionRepository.findByUser_KakaoId(userId);
         return collections;   
     }
 

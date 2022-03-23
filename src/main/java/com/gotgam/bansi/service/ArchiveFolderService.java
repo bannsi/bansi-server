@@ -32,7 +32,7 @@ public class ArchiveFolderService {
     }
 
     public List<ArchiveFolder> listFolder(String userId){
-        List<ArchiveFolder> folders = folderRepository.findAllByUser_Id(userId);
+        List<ArchiveFolder> folders = folderRepository.findAllByUser_KakaoId(userId);
         return folders;
     }
 
@@ -66,7 +66,6 @@ public class ArchiveFolderService {
     public ArchiveFolder deleteCollectionFromFolder(Long collectionId, Long folderId){
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
         PieceCollection collection = collectionService.getCollection(collectionId);
-        // TEST
         folder.getCollections().remove(collection);
         return folder;
     }
@@ -75,7 +74,6 @@ public class ArchiveFolderService {
     public ArchiveFolder deletePieceFromFolder(Long pieceId, Long folderId){
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
         Piece piece = pieceService.getPieceByPieceId(pieceId);
-        // TEST
         folder.getPieces().remove(piece);
         return folder;
     }

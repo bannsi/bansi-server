@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserService {
     public User updateUser(String kakaoId, User newUser) {
         User user = getUserFromId(kakaoId);
         user.setNickname(newUser.getNickname());
-        userRepository.save(user);
         return user;
     }
 }

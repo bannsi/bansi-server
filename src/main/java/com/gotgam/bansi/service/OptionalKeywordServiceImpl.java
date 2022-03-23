@@ -40,6 +40,6 @@ public class OptionalKeywordServiceImpl implements OptionalKeywordService {
     public OptionalKeyword updateOpKeyword(Long id, OptionalKeywordRequest opKeywordDto){
         OptionalKeyword opKeyword = repository.findById(id).orElseThrow(() -> new NotFoundException("worng optional keyword id"));
         opKeyword.setName(opKeywordDto.getName());
-        return repository.save(opKeyword);
+        return opKeyword;
     }
 }
