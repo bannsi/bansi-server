@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,11 +30,14 @@ public class ArchiveFolder {
     private Set<Piece> pieces; 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<PieceCollection> collections;
+    @OneToMany(fetch =  FetchType.EAGER)
+    private Set<ArchiveLink> links;
 
     public ArchiveFolder(User user, String name){
         this.user = user;
         this.name = name;
         this.pieces = new HashSet<>();
         this.collections = new HashSet<>();
+        this.links = new HashSet<>();
     }
 }
