@@ -210,4 +210,32 @@ public class PieceControllerTest {
 
         actions.andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("키워드 필터링")
+    public void keywordFilterTest() throws Exception {
+        final ResultActions actions = mvc.perform(
+            get("/pieces/v1/keyword/1")
+                .header(HttpHeaders.AUTHORIZATION, testToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        );
+
+        actions.andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("동행자 필터링")
+    public void whoFilterTest() throws Exception {
+        final ResultActions actions = mvc.perform(
+            get("/pieces/v1/who/1")
+                .header(HttpHeaders.AUTHORIZATION, testToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        );
+
+        actions.andExpect(status().isOk());
+    }
 }
