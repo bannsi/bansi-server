@@ -1,12 +1,13 @@
 package com.gotgam.bansi.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,15 +22,15 @@ public class ArchiveFolder {
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
     private String name;
-    @OneToMany
-    private List<ArchivePiece> pieces; 
-    @OneToMany
-    private List<ArchiveCollection> collections;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Piece> pieces; 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<PieceCollection> collections;
 
     public ArchiveFolder(User user, String name){
         this.user = user;
         this.name = name;
-        this.pieces = new ArrayList<>();
-        this.collections = new ArrayList<>();
+        this.pieces = new HashSet<>();
+        this.collections = new HashSet<>();
     }
 }
