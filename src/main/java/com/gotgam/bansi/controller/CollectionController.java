@@ -59,5 +59,11 @@ public class CollectionController {
         List<PieceCollection> collections = collectionService.listCollections(userId);
         return ResponseEntity.ok().body(new ListPieceCollectionResponse("S00", "collection list", collections));
     }
-    
+
+    @RequestMapping(value = "/place/{placeName}", method = RequestMethod.GET)
+    public ResponseEntity<ListPieceCollectionResponse> filterByplaceName(@PathVariable String placeName){
+        List<PieceCollection> collections = collectionService.findByPlace(placeName);
+        return ResponseEntity.ok().body(new ListPieceCollectionResponse("S00", "filtered by place", collections));
+    }
+
 }

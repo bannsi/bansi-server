@@ -9,4 +9,5 @@ public interface PieceCollectionService {
     PieceCollection getCollection(Long collectionId);   
     PieceCollection saveCollection(String userId, PieceCollectionRequest collectionRequest);
     List<PieceCollection> listCollections(String userId);
+    List<PieceCollection> findByPlace(String placeName);
 }

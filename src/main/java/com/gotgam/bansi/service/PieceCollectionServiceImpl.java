@@ -11,6 +11,7 @@ import com.gotgam.bansi.DTO.PieceCollectionDTO.PieceCollectionRequest;
 import com.gotgam.bansi.model.Item;
 import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.PieceCollection;
+import com.gotgam.bansi.model.PlaceKeyword;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.respository.ItemRepository;
 import com.gotgam.bansi.respository.PieceCollectionRepository;
@@ -75,5 +76,12 @@ public class PieceCollectionServiceImpl implements PieceCollectionService {
     public List<PieceCollection> listCollections(String userId){
         List<PieceCollection> collections = collectionRepository.findByUserKakaoId(userId);
         return collections;   
+    }
+
+    @Override
+    public List<PieceCollection> findByPlace(String placeName){
+        PlaceKeyword place = placeKeywordService.findByName(placeName);
+        List<PieceCollection> collections = collectionRepository.findByPlace(place);
+        return collections;
     }
 }

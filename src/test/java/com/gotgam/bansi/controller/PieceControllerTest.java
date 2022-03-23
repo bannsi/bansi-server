@@ -22,6 +22,7 @@ import com.gotgam.bansi.service.WhoKeywordService;
 import com.gotgam.bansi.util.JwtUtil;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -193,6 +194,20 @@ public class PieceControllerTest {
                 .characterEncoding("UTF-8")
         );
         
+        actions.andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("지역 필터링")
+    public void placeFilterTest() throws Exception {
+        final ResultActions actions = mvc.perform(
+            get("/pieces/v1/place/부산")
+                .header(HttpHeaders.AUTHORIZATION, testToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        );
+
         actions.andExpect(status().isOk());
     }
 }

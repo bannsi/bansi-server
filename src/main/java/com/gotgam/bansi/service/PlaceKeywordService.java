@@ -7,6 +7,7 @@ import com.gotgam.bansi.respository.PlaceKeywordRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +25,11 @@ public class PlaceKeywordService {
         } else {
             placeKeyword = opPlace.get();
         }
+        return placeKeyword;
+    }
+
+    PlaceKeyword findByName(String placeName){
+        PlaceKeyword placeKeyword = placeKeywordRepository.findByName(placeName).orElseThrow(() -> new NotFoundException("wrong place name"));
         return placeKeyword;
     }
 }

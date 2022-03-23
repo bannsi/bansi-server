@@ -94,4 +94,10 @@ public class PieceController {
         pieceService.deletePiece(pieceId);
         return ResponseEntity.ok(new ResponseDTO("S00", "piece is deleted"));
     }
+
+    @RequestMapping(value = "/place/{placeName}", method = RequestMethod.GET)
+    public ResponseEntity<ListPieceResponse> filterByPlace(@PathVariable String placeName){
+        List<Piece> pieces = pieceService.findByPlace(placeName);
+        return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by place", pieces));
+    }
 }

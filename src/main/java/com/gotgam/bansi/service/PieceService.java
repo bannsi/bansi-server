@@ -14,6 +14,7 @@ public interface PieceService {
     Piece savePiece(PieceRequest pieceRequest, String userId);
     List<Piece> findRandomPieces();
     // 필터 : 지역, 키워드, who
+    List<Piece> findByPlace(String placeName);
     // List<PieceThumbnail> 
     void deletePiece(Long pieceId);
     List<PieceThumbnail> findThumbnails(User user);

@@ -11,6 +11,7 @@ import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.model.OptionalKeyword;
 import com.gotgam.bansi.model.Piece;
+import com.gotgam.bansi.model.PlaceKeyword;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.model.WhoKeyword;
 import com.gotgam.bansi.respository.KeywordRepository;
@@ -136,5 +137,12 @@ public class PieceServiceImpl implements PieceService {
                 thumbnails.add(new PieceThumbnail(piece.getPieceId(), piece.getImages().get(0).getEncoded()));
             }
         return thumbnails;
+    }
+
+    @Override
+    public List<Piece> findByPlace(String placeName){
+        PlaceKeyword placeKeyword = placeKeywordService.findByName(placeName);
+        List<Piece> pieces = pieceRepository.findAllByPlace(placeKeyword);
+        return pieces;
     }
 }
