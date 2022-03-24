@@ -28,4 +28,9 @@ public class PieceLikeServiceImpl implements PieceLikeService {
         pieceLikeRepository.deleteByPieceAndUser(piece, user);
         return pieceLikeRepository.countByPiece(piece);
     }
+
+    @Override
+    public Long countPieceLike(Piece piece){
+        return pieceLikeRepository.countByPiece(piece);
+    }
 }

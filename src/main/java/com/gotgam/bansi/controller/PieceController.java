@@ -31,9 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
-
-
-
 @Slf4j
 @RestController
 @SecurityRequirement(name = "Authorization")
@@ -79,13 +76,18 @@ public class PieceController {
 
     @RequestMapping(value = "/like/{pieceId}/", method = RequestMethod.POST)
     public ResponseEntity<PieceLikeResponse> likePiece(@PathVariable Long pieceId, @RequestHeader HttpHeaders headers){
-        String kakaoId = jwtUtil.getUsernameFromTokenStr(headers.getFirst("Authorization"));
-        User user = userService.getUserFromId(kakaoId);
-        Piece piece = pieceService.getPieceByPieceId(pieceId);
-        Long likeCount = pieceLikeService.createPieceLike(piece, user);
+        String userId = jwtUtil.getUsernameFromTokenStr(headers.getFirst("Authorization"));
+        Long likeCount = pieceService.likePiece(pieceId, userId);
         return ResponseEntity.ok().body(new PieceLikeResponse("S00", "like success", likeCount));
     }
 
+    @RequestMapping(value="/dislike/{pieceId}/", method=RequestMethod.POST)
+    public ResponseEntity<PieceLikeResponse> dislikePiece(@PathVariable Long pieceId, @RequestHeader HttpHeaders headers) {    
+        String userId = jwtUtil.getUsernameFromTokenStr(headers.getFirst("Authorization"));
+        Long likeCount = pieceService.likePiece(pieceId, userId);
+        return ResponseEntity.ok().body(new PieceLikeResponse("S00", "dislike success", likeCount));
+    }
+    
     @RequestMapping(value="", method=RequestMethod.GET)
     public ResponseEntity<ListPieceResponse> getRandomPieces() {
         List<Piece> pieces = pieceService.findRandomPieces();

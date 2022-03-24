@@ -16,7 +16,6 @@ import com.gotgam.bansi.model.WhoKeyword;
 import com.gotgam.bansi.respository.KeywordRepository;
 import com.gotgam.bansi.respository.OptionalKeywordRepository;
 import com.gotgam.bansi.respository.PieceRepository;
-import com.gotgam.bansi.respository.UserRepository;
 import com.gotgam.bansi.respository.WhoKeywordRepository;
 
 import org.springframework.stereotype.Service;
@@ -37,9 +36,10 @@ public class PieceServiceImpl implements PieceService {
     private final KeywordRepository keywordRepository;
     private final WhoKeywordRepository whoKeywordRepository;
     private final OptionalKeywordRepository opKeywordRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final ImageService imageService;
     private final PlaceKeywordService placeKeywordService;
+    private final PieceLikeService likeService;
     private final Integer RANDOM_PIECES = 6;
 
     @Override
@@ -50,7 +50,7 @@ public class PieceServiceImpl implements PieceService {
 
     @Override
     public List<Piece> findPieceByUserId(String userId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("wrong token"));
+        User user = userService.getUserFromId(userId);
         List<Piece> pieces = pieceRepository.findByUser(user);
         return pieces;
     }
@@ -70,7 +70,7 @@ public class PieceServiceImpl implements PieceService {
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public Piece savePiece(PieceRequest pieceRequest, String userId){
-        User user  = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("wrong token"));
+        User user = userService.getUserFromId(userId);
         List<Keyword> keywords = keywordRepository.findAllById(pieceRequest.getKeywords());
         List<OptionalKeyword> opKeywords = new ArrayList<>();
         if(pieceRequest.getOptionalKeywords().size() != 0){
@@ -93,8 +93,6 @@ public class PieceServiceImpl implements PieceService {
         piece.setOpKeywords(opKeywords);
         piece.setWhos(whos);
         piece.setImages(images);
-
-        log.info(pieceRequest.getAddress() + " " + piece.getAddress());
 
         pieceRepository.save(piece.withCreatedAt(new Date()));
         return piece;
@@ -153,5 +151,21 @@ public class PieceServiceImpl implements PieceService {
     public List<Piece> findByWho(Long whoId){
         List<Piece> pieces = pieceRepository.findAllByWhos_Id(whoId);
         return pieces;
+    }
+
+    @Override
+    public Long likePiece(Long pieceId, String userId){
+        User user = userService.getUserFromId(userId);
+        Piece piece = pieceRepository.findById(pieceId).orElseThrow(() -> new NotFoundException("잘못된 조각 아이디"));
+        Long likeCount = likeService.createPieceLike(piece, user);
+        return likeCount;
+    }
+
+    @Override
+    public Long dislikePiece(Long pieceId, String userId){
+        User user = userService.getUserFromId(userId);
+        Piece piece = pieceRepository.findById(pieceId).orElseThrow(() -> new NotFoundException("잘못된 조각 아이디"));
+        Long likeCount = likeService.deletePieceLike(piece, user);
+        return likeCount;
     }
 }

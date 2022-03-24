@@ -10,10 +10,12 @@ import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name="piece_likes", uniqueConstraints = @UniqueConstraint(columnNames = {"user_kakao_id", "piece_piece_id"}))

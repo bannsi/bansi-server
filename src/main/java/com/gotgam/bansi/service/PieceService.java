@@ -21,4 +21,7 @@ public interface PieceService {
     void deletePiece(Long pieceId);
     List<PieceThumbnail> findThumbnails(User user);
     List<PieceThumbnail> findByKeywordId(Long keywordId);
+
+    Long likePiece(Long pieceId, String userId);
+    Long dislikePiece(Long pieceId, String userId);
 }
