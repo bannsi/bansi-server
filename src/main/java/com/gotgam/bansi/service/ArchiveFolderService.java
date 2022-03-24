@@ -35,6 +35,11 @@ public class ArchiveFolderService {
         return folderRepository.save(folder);
     }
 
+    public ArchiveFolder getFolder(Long folderId){
+        ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
+        return folder;
+    }
+
     public List<ArchiveFolder> listFolder(String userId){
         List<ArchiveFolder> folders = folderRepository.findAllByUser_KakaoId(userId);
         return folders;

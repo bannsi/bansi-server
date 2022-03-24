@@ -27,7 +27,7 @@ public class ArchiveFolder {
     private User user;
     private String name;
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Piece> pieces; 
+    private Set<Piece> pieces;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<PieceCollection> collections;
     @OneToMany(fetch =  FetchType.EAGER)

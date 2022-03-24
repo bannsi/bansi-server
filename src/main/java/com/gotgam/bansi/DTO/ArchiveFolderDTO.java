@@ -15,6 +15,8 @@ public class ArchiveFolderDTO {
     public static class ArchiveFolderRequest{
         private String name;
     }
+    
+    @Getter
     public static class ArchiveFolderResponse extends ResponseDTO {
         private ArchiveFolder body;
         public ArchiveFolderResponse(String code, String message, ArchiveFolder body){
@@ -22,6 +24,8 @@ public class ArchiveFolderDTO {
             this.body = body;
         }
     }
+
+    @Getter
     public static class ListArchiveFolderResponse extends ResponseDTO {
         private List<ArchiveFolder> body;
         public ListArchiveFolderResponse(String code, String message, List<ArchiveFolder> body){
