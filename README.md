@@ -1,5 +1,4 @@
 # 곧,감 (Got Gam)
----
 ![gotgam](asset/gotgam.png)
 키워드 기반 여행 경험 공유 SNS
 ## 개발 목표
