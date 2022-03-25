@@ -40,6 +40,7 @@ public class PieceServiceImpl implements PieceService {
     private final ImageService imageService;
     private final PlaceKeywordService placeKeywordService;
     private final PieceLikeService likeService;
+    
     private final Integer RANDOM_PIECES = 6;
 
     @Override

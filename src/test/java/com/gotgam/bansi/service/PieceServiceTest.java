@@ -11,7 +11,6 @@ import com.gotgam.bansi.DTO.WhoKeywordDTO.WhoKeywordRequest;
 import com.gotgam.bansi.respository.KeywordRepository;
 import com.gotgam.bansi.respository.OptionalKeywordRepository;
 import com.gotgam.bansi.respository.PieceRepository;
-import com.gotgam.bansi.respository.UserRepository;
 import com.gotgam.bansi.respository.WhoKeywordRepository;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,26 +25,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class PieceServiceTest {
     private PieceService pieceService;
-    @Autowired
-    private PieceRepository pieceRepository;
-    @Autowired
-    private KeywordRepository keywordRepository;
-    @Autowired
-    private WhoKeywordRepository whoKeywordRepository;
-    @Autowired
-    private OptionalKeywordRepository opKeywordRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ImageService imageService;
-    @Autowired
-    private PlaceKeywordService placeKeywordService;
-    @Autowired
-    private KeywordService keywordService;
-    @Autowired
-    private WhoKeywordService whoKeywordService;
-    @Autowired
-    private OptionalKeywordService optionalKeywordService;
+    @Autowired private PieceRepository pieceRepository;
+    @Autowired private KeywordRepository keywordRepository;
+    @Autowired private KeywordService keywordService;
+    @Autowired private WhoKeywordRepository whoKeywordRepository;
+    @Autowired private WhoKeywordService whoKeywordService;
+    @Autowired private OptionalKeywordRepository opKeywordRepository;
+    @Autowired private OptionalKeywordService optionalKeywordService;
+    @Autowired private UserService userService;
+    @Autowired private ImageService imageService;
+    @Autowired private PlaceKeywordService placeKeywordService;
+    @Autowired private PieceLikeService likeService;
 
     @BeforeEach
     public void setUp(){
@@ -54,9 +44,10 @@ public class PieceServiceTest {
             keywordRepository,
             whoKeywordRepository,
             opKeywordRepository,
-            userRepository,
+            userService,
             imageService,
-            placeKeywordService);
+            placeKeywordService,
+            likeService);
     }
 
     @Test
