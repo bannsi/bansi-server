@@ -40,7 +40,8 @@ public class PieceServiceImpl implements PieceService {
     private final ImageService imageService;
     private final PlaceKeywordService placeKeywordService;
     private final PieceLikeService likeService;
-    
+    private final CommentService commentService;
+
     private final Integer RANDOM_PIECES = 6;
 
     @Override
@@ -100,14 +101,14 @@ public class PieceServiceImpl implements PieceService {
     }
 
     @Override
-    public List<Piece> findRandomPieces(){
+    public List<ThumbNail> findRandomPieces(){
         List<Long> candIds = pieceRepository.findIdAll();
         Random rand = new Random(System.currentTimeMillis());
         List<Long> ids = new ArrayList<>();
         for(int i = 0; i < RANDOM_PIECES; i++){
             ids.add(candIds.get(rand.nextInt(candIds.size())));
         }
-        return pieceRepository.findAllById(ids);
+        return pieceRepository.findAllThumbNailById(ids);
     }
 
     @Override
@@ -125,15 +126,15 @@ public class PieceServiceImpl implements PieceService {
     public List<ThumbNail> findByKeywordId(Long keywordId){
             List<Piece> pieces = pieceRepository.findAllByKeywords_Id(keywordId);
             List<ThumbNail> thumbnails = new ArrayList<>();
-            for(Piece piece : pieces){
-                thumbnails.add(new ThumbNail(
-                    piece.getPieceId(), 
-                    piece.getImages().stream()
-                        .filter(img -> img.getThumbnail().equals(true))
-                        .findFirst()
-                        .orElse(piece.getImages().get(0)).getEncoded(), 
-                    piece.getUser().getKakaoId()));
-            }
+            // for(Piece piece : pieces){
+            //     thumbnails.add(new ThumbNail(
+            //         piece.getPieceId(), 
+            //         piece.getImages().stream()
+            //             .filter(img -> img.getThumbnail().equals(true))
+            //             .findFirst()
+            //             .orElse(piece.getImages().get(0)).getEncoded(), 
+            //         piece.getUser().getKakaoId()));
+            // }
         return thumbnails;
     }
 

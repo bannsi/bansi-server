@@ -8,10 +8,11 @@ import com.gotgam.bansi.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface PieceRepository extends JpaRepository<Piece,Long>{
     List<Piece> findByUser(User user);
-    List<Piece> findAllById(Iterable<Long> ids);
+    
     List<Piece> findAllByKeywords_Id(Long keywordId);
     List<Piece> findAllByOpKeywords_id(Long opKeywordId);
     List<Piece> findAllByWhos_Id(Long whoId);
@@ -24,4 +25,6 @@ public interface PieceRepository extends JpaRepository<Piece,Long>{
     List<ThumbNail> findThumbNails();
     @Query(value = "SELECT p.piece_id AS pieceId, p.user_kakao_id AS userId, img.encoded AS encoded FROM pieces p LEFT JOIN image img ON p.piece_id = img.piece_id WHERE img.thumbnail = true AND p.user_kakao_id = ?1", nativeQuery = true)
     List<ThumbNail> findThumbNailByUserId(String userId);
+    @Query(value = "SELECT p.piece_id AS pieceId, p.user_kakao_id AS userId, img.encoded AS encoded FROM pieces p LEFT JOIN image img ON p.piece_id = img.piece_id WHERE img.thumbnail = true AND p.piece_id in :ids", nativeQuery = true)
+    List<ThumbNail> findAllThumbNailById(@Param("ids") List<Long> ids);
 }

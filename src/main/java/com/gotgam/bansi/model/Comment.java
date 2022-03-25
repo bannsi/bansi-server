@@ -22,4 +22,10 @@ public class Comment {
     @ManyToOne
     private Piece piece;
     private String content;
+
+    public Comment(User user, Piece piece, String content){
+        this.user = user;
+        this.piece = piece;
+        this.content = content;
+    }
 }

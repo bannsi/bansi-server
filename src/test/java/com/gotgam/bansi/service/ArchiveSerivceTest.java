@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
+import com.gotgam.bansi.DAO.ThumbNail;
 import com.gotgam.bansi.model.ArchiveFolder;
-import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.respository.ArchiveFolderRepository;
 import com.gotgam.bansi.util.JwtUtil;
 
@@ -58,7 +58,7 @@ public class ArchiveSerivceTest {
     public void updateArchiveTest(){
         String username = jwtUtil.getUsernameFromTokenStr(testToken);
         ArchiveFolder folder = folderService.createFolder(username, "test folder");
-        List<Piece> pieces = pieceService.findRandomPieces();
+        List<ThumbNail> pieces = pieceService.findRandomPieces();
         
         folder = folderService.addPieceToFolder(pieces.get(0).getPieceId(), folder.getId());
         assertEquals(folder.getPieces().size(), 1);

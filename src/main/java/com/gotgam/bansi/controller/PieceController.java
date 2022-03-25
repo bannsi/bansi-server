@@ -88,9 +88,9 @@ public class PieceController {
     }
     
     @RequestMapping(value="", method=RequestMethod.GET)
-    public ResponseEntity<ListPieceResponse> getRandomPieces() {
-        List<Piece> pieces = pieceService.findRandomPieces();
-        return ResponseEntity.ok().body(new ListPieceResponse("S00", "message", pieces));
+    public ResponseEntity<ListThumbnailResponse> getRandomPieces() {
+        List<ThumbNail> thumbnails = pieceService.findRandomPieces();
+        return ResponseEntity.ok().body(new ListThumbnailResponse("S00", "random thumbnails", thumbnails));
     }
     
     @RequestMapping(value="/{pieceId}/", method=RequestMethod.DELETE)

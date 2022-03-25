@@ -3,6 +3,7 @@ package com.gotgam.bansi.model;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -60,7 +61,8 @@ public class Piece {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "piece_id")
     private List<Image> images;
-    
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Comment> commnets;
     
     public Piece withUser(User user){
         this.setUser(user);

@@ -38,6 +38,7 @@ public class PieceServiceTest {
     @Autowired private ImageService imageService;
     @Autowired private PlaceKeywordService placeKeywordService;
     @Autowired private PieceLikeService likeService;
+    @Autowired private CommentService commentService;
     @Autowired private JwtUtil jwtUtil;
 
     @Value("${test.token}")
@@ -53,7 +54,8 @@ public class PieceServiceTest {
             userService,
             imageService,
             placeKeywordService,
-            likeService);
+            likeService,
+            commentService);
     }
 
     @Test
@@ -96,6 +98,7 @@ public class PieceServiceTest {
     
     @Test
     public void ThumbNailTest(){
+        pieceService.findRandomPieces();
         String userId = jwtUtil.getUsernameFromTokenStr(testToken);
         pieceService.findThumbnails(userId);
     }

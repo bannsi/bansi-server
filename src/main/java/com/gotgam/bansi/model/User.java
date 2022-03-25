@@ -33,6 +33,8 @@ public class User {
     private String image;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<ArchiveFolder> folders;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Comment> comments; 
     
     public User withKakaoId(String kakaoId) {
         this.kakaoId = kakaoId;
