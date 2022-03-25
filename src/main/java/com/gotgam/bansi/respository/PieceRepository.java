@@ -3,6 +3,7 @@ package com.gotgam.bansi.respository;
 import java.util.List;
 
 import com.gotgam.bansi.model.Piece;
+import com.gotgam.bansi.model.ThumbNail;
 import com.gotgam.bansi.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,8 @@ public interface PieceRepository extends JpaRepository<Piece,Long>{
     Long getMaxId();
     @Query(value = "SELECT pieces.piece_id FROM pieces ORDER BY pieces.created_at DESC LIMIT 100", nativeQuery = true)
     List<Long> findIdAll();
+    @Query(value = "SELECT p.piece_id AS pieceId, p.user_kakao_id AS userId, img.encoded AS encoded FROM pieces p LEFT JOIN image img ON p.piece_id = img.piece_id WHERE img.thumbnail = true", nativeQuery = true)
+    List<ThumbNail> findThumbNails();
+    @Query(value = "SELECT p.piece_id AS pieceId, p.user_kakao_id AS userId, img.encoded AS encoded FROM pieces p LEFT JOIN image img ON p.piece_id = img.piece_id WHERE img.thumbnail = true AND p.user_kakao_id = ?1", nativeQuery = true)
+    List<ThumbNail> findThumbNailByUserId(String userId);
 }

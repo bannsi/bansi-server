@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 
 import com.gotgam.bansi.DTO.ImageDTO.ImageRequest;
 import com.gotgam.bansi.DTO.ImageDTO.ImageResponse;
-import com.gotgam.bansi.DTO.ImageDTO.PieceThumbnail;
 import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.model.OptionalKeyword;
@@ -110,14 +109,6 @@ public class PieceDTO {
             }
             if(piece.getPlace() != null)
                 this.place = piece.getPlace().getName();
-        }
-    }
-    @Getter
-    public static class PieceThumbnailResponse extends ResponseDTO {
-        private List<PieceThumbnail> body;
-        public PieceThumbnailResponse(String code, String message, List<PieceThumbnail> body){
-            super(code, message);
-            this.body = body;
         }
     }
 }

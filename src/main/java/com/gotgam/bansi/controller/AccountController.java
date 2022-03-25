@@ -21,12 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
-
-
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/accounts/v1")
 public class AccountController {
@@ -34,13 +33,6 @@ public class AccountController {
     private final UserService userService;
     private final PieceService pieceService;
     private final JwtUtil jwtUtil;
-
-    public AccountController(KakaoService kakaoService, UserService userService, PieceService pieceService, JwtUtil jwtUtil){
-        this.kakaoService = kakaoService;
-        this.userService = userService;
-        this.pieceService = pieceService;
-        this.jwtUtil = jwtUtil;
-    }
     
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello(){

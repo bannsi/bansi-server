@@ -13,15 +13,6 @@ public class ImageDTO {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class PieceThumbnail{
-        private Long pieceId;
-        private String thumbnail;
-    }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class ImageResponse{
         private String image;
         private Boolean thumbnail;

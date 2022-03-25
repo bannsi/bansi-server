@@ -16,4 +16,3 @@ Client <- DTO ->controller <- DTO -> service <--> Entity <- repository -> Databa
 - 곽혜원 Frontend Developer [YumYumNyang Github](https://github.com/YumYumNyang)
 - 김승혜 Designer/Marketer [GotGam 1.0 Repo](https://github.com/bannsi/got-gam-client)
 - 이영희 Designer/Product Manager [GotGam 1.0 Repo](https://github.com/bannsi/got-gam-client)
-

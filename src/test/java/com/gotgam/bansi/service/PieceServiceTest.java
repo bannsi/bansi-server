@@ -12,6 +12,7 @@ import com.gotgam.bansi.respository.KeywordRepository;
 import com.gotgam.bansi.respository.OptionalKeywordRepository;
 import com.gotgam.bansi.respository.PieceRepository;
 import com.gotgam.bansi.respository.WhoKeywordRepository;
+import com.gotgam.bansi.util.JwtUtil;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,7 +38,11 @@ public class PieceServiceTest {
     @Autowired private ImageService imageService;
     @Autowired private PlaceKeywordService placeKeywordService;
     @Autowired private PieceLikeService likeService;
+    @Autowired private JwtUtil jwtUtil;
 
+    @Value("${test.token}")
+    private String testToken;
+    
     @BeforeEach
     public void setUp(){
         this.pieceService = new PieceServiceImpl(
@@ -86,5 +92,11 @@ public class PieceServiceTest {
             whos,
             "busan"
         );
+    }
+    
+    @Test
+    public void ThumbNailTest(){
+        String userId = jwtUtil.getUsernameFromTokenStr(testToken);
+        pieceService.findThumbnails(userId);
     }
 }

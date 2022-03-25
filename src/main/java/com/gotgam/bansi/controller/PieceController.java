@@ -4,15 +4,14 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.gotgam.bansi.DTO.ImageDTO.PieceThumbnail;
 import com.gotgam.bansi.DTO.PieceDTO.ListPieceResponse;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.DTO.PieceDTO.PieceResponse;
-import com.gotgam.bansi.DTO.PieceDTO.PieceThumbnailResponse;
 import com.gotgam.bansi.DTO.PieceLikeDTO.PieceLikeResponse;
 import com.gotgam.bansi.DTO.ResponseDTO;
+import com.gotgam.bansi.DTO.ThumbnailDTO.ListThumbnailResponse;
 import com.gotgam.bansi.model.Piece;
-import com.gotgam.bansi.model.User;
+import com.gotgam.bansi.model.ThumbNail;
 import com.gotgam.bansi.service.PieceLikeService;
 import com.gotgam.bansi.service.PieceService;
 import com.gotgam.bansi.service.UserService;
@@ -30,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
+
 
 @Slf4j
 @RestController
@@ -49,10 +49,9 @@ public class PieceController {
     }
     
     @RequestMapping(value = "/user/{kakaoId}", method = RequestMethod.GET)
-    public ResponseEntity<PieceThumbnailResponse> getPiecesByUserId(@PathVariable String kakaoId){
-        User user = userService.getUserFromId(kakaoId);
-        List<PieceThumbnail> thumbnails = pieceService.findThumbnails(user);
-        return ResponseEntity.ok().body(new PieceThumbnailResponse("S00", "message", thumbnails));
+    public ResponseEntity<ListThumbnailResponse> getPiecesByUserId(@PathVariable String kakaoId){
+        List<ThumbNail> thumbnails = pieceService.findThumbnails(kakaoId);
+        return ResponseEntity.ok().body(new ListThumbnailResponse("S00", "message", thumbnails));
     }
 
     @RequestMapping(value="/{pieceId}", method=RequestMethod.GET)
@@ -116,5 +115,5 @@ public class PieceController {
     public ResponseEntity<ListPieceResponse> filterByKeyword(@PathVariable Long keywordId) {
         List<Piece> pieces = pieceService.findByKeyword(keywordId);
         return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by keyword", pieces));
-    }
+    }    
 }

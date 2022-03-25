@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import com.gotgam.bansi.DTO.ImageDTO.PieceThumbnail;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.model.OptionalKeyword;
 import com.gotgam.bansi.model.Piece;
+import com.gotgam.bansi.model.ThumbNail;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.model.WhoKeyword;
 import com.gotgam.bansi.respository.KeywordRepository;
@@ -116,22 +116,23 @@ public class PieceServiceImpl implements PieceService {
     }
 
     @Override
-    public List<PieceThumbnail> findThumbnails(User user){
-        List<Piece> pieces = pieceRepository.findByUser(user);
-        List<PieceThumbnail> thumbnails = new ArrayList<>();
-        for(Piece piece : pieces){
-            thumbnails.add(new PieceThumbnail(piece.getPieceId(), piece.getImages().get(0).getEncoded()));
-
-        }
+    public List<ThumbNail> findThumbnails(String userId){
+        List<ThumbNail> thumbnails = pieceRepository.findThumbNailByUserId(userId);
         return thumbnails;
     }
 
     @Override
-    public List<PieceThumbnail> findByKeywordId(Long keywordId){
+    public List<ThumbNail> findByKeywordId(Long keywordId){
             List<Piece> pieces = pieceRepository.findAllByKeywords_Id(keywordId);
-            List<PieceThumbnail> thumbnails = new ArrayList<>();
+            List<ThumbNail> thumbnails = new ArrayList<>();
             for(Piece piece : pieces){
-                thumbnails.add(new PieceThumbnail(piece.getPieceId(), piece.getImages().get(0).getEncoded()));
+                thumbnails.add(new ThumbNail(
+                    piece.getPieceId(), 
+                    piece.getImages().stream()
+                        .filter(img -> img.getThumbnail().equals(true))
+                        .findFirst()
+                        .orElse(piece.getImages().get(0)).getEncoded(), 
+                    piece.getUser().getKakaoId()));
             }
         return thumbnails;
     }
