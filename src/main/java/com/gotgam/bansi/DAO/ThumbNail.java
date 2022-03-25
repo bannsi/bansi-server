@@ -1,4 +1,4 @@
-package com.gotgam.bansi.model;
+package com.gotgam.bansi.DAO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -2,7 +2,7 @@ package com.gotgam.bansi.DTO;
 
 import java.util.List;
 
-import com.gotgam.bansi.model.ThumbNail;
+import com.gotgam.bansi.DAO.ThumbNail;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

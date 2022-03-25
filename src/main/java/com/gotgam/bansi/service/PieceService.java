@@ -2,9 +2,9 @@ package com.gotgam.bansi.service;
 
 import java.util.List;
 
+import com.gotgam.bansi.DAO.ThumbNail;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.model.Piece;
-import com.gotgam.bansi.model.ThumbNail;
 
 public interface PieceService {
     Piece getPieceByPieceId(Long pieceId);

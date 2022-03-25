@@ -2,8 +2,8 @@ package com.gotgam.bansi.respository;
 
 import java.util.List;
 
+import com.gotgam.bansi.DAO.ThumbNail;
 import com.gotgam.bansi.model.Piece;
-import com.gotgam.bansi.model.ThumbNail;
 import com.gotgam.bansi.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;

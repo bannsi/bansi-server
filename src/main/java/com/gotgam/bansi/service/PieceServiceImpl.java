@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import com.gotgam.bansi.DAO.ThumbNail;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.model.OptionalKeyword;
 import com.gotgam.bansi.model.Piece;
-import com.gotgam.bansi.model.ThumbNail;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.model.WhoKeyword;
 import com.gotgam.bansi.respository.KeywordRepository;

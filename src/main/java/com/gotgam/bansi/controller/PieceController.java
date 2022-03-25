@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.gotgam.bansi.DAO.ThumbNail;
 import com.gotgam.bansi.DTO.PieceDTO.ListPieceResponse;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.DTO.PieceDTO.PieceResponse;
@@ -11,7 +12,6 @@ import com.gotgam.bansi.DTO.PieceLikeDTO.PieceLikeResponse;
 import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.DTO.ThumbnailDTO.ListThumbnailResponse;
 import com.gotgam.bansi.model.Piece;
-import com.gotgam.bansi.model.ThumbNail;
 import com.gotgam.bansi.service.PieceLikeService;
 import com.gotgam.bansi.service.PieceService;
 import com.gotgam.bansi.service.UserService;
