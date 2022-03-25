@@ -23,4 +23,6 @@ public interface PieceService {
 
     Long likePiece(Long pieceId, String userId);
     Long dislikePiece(Long pieceId, String userId);
+
+    void test();
 }

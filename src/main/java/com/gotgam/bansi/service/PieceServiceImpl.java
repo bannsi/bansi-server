@@ -171,4 +171,13 @@ public class PieceServiceImpl implements PieceService {
         Long likeCount = likeService.deletePieceLike(piece, user);
         return likeCount;
     }
+
+    @Override
+    public void test(){
+        List<Long> keywordIds = new ArrayList<>();
+        List<Long> opKeywordIds = new ArrayList<>();
+        List<Long> whosIds = new ArrayList<>();
+        List<String> placeNames = new ArrayList<>();
+        pieceRepository.findByKeywordsOrOpKeywordsOrWhosOrPlace(keywordIds, opKeywordIds, whosIds, placeNames);
+    }
 }

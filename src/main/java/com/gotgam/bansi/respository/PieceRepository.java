@@ -17,6 +17,9 @@ public interface PieceRepository extends JpaRepository<Piece,Long>{
     List<Piece> findAllByOpKeywords_id(Long opKeywordId);
     List<Piece> findAllByWhos_Id(Long whoId);
     List<Piece> findAllByPlace_Name(String placeName);
+
+    List<Piece> findByKeywordsOrOpKeywordsOrWhosOrPlace(List<Long> keywordIds, List<Long> opKeywordIds, List<Long> whosIds, List<String> placeNames);
+
     @Query(value = "SELECT coalesce(max(pieces.piece_id), 0) FROM pieces", nativeQuery = true)
     Long getMaxId();
     @Query(value = "SELECT pieces.piece_id FROM pieces ORDER BY pieces.created_at DESC LIMIT 100", nativeQuery = true)

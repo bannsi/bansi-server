@@ -102,4 +102,9 @@ public class PieceServiceTest {
         String userId = jwtUtil.getUsernameFromTokenStr(testToken);
         pieceService.findThumbnails(userId);
     }
+
+    @Test
+    public void test(){
+        pieceService.test();
+    }
 }
