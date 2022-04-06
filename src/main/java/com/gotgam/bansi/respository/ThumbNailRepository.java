@@ -11,6 +11,6 @@ public interface ThumbNailRepository extends JpaRepository<ThumbNail, Long> {
     List<ThumbNail> findAllById(Iterable<Long> ids);
     List<ThumbNail> findAllByUser_KakaoId(String userId);
 
-    @Query(value = "SELECT thumbNails.id FROM thumbNails LIMIT 100", nativeQuery = true)
+    @Query(value = "SELECT thumb_nail.id FROM thumb_nail LIMIT 100", nativeQuery = true)
     List<Long> findIdAll();
 }
