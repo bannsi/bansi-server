@@ -1,27 +1,27 @@
 package com.gotgam.bansi.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.validation.Valid;
 
-import com.gotgam.bansi.DAO.ThumbNail;
-import com.gotgam.bansi.DTO.PieceDTO.ListPieceResponse;
+import com.gotgam.bansi.DTO.FilterDTO;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.DTO.PieceDTO.PieceResponse;
 import com.gotgam.bansi.DTO.PieceLikeDTO.PieceLikeResponse;
 import com.gotgam.bansi.DTO.ResponseDTO;
-import com.gotgam.bansi.DTO.ThumbnailDTO.ListThumbnailResponse;
+import com.gotgam.bansi.DTO.ThumbnailDTO.ListThumbNailDTOResponse;
+import com.gotgam.bansi.DTO.ThumbnailDTO.ThumbNailDTO;
 import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.service.PieceLikeService;
 import com.gotgam.bansi.service.PieceService;
+import com.gotgam.bansi.service.ThumbNailService;
 import com.gotgam.bansi.service.UserService;
 import com.gotgam.bansi.util.JwtUtil;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -36,23 +37,18 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @SecurityRequirement(name = "Authorization")
 @RequestMapping(value = "/pieces/v1")
+@RequiredArgsConstructor
 public class PieceController {
     private final JwtUtil jwtUtil;
     private final PieceService pieceService;
     private final PieceLikeService pieceLikeService;
     private final UserService userService;
-
-    public PieceController(JwtUtil jwtUtil, PieceService pieceService, PieceLikeService pieceLikeService, UserService userService){
-        this.jwtUtil = jwtUtil;
-        this.pieceService = pieceService;
-        this.pieceLikeService = pieceLikeService;
-        this.userService = userService;
-    }
+    private final ThumbNailService thumbNailService;
     
     @RequestMapping(value = "/user/{kakaoId}", method = RequestMethod.GET)
-    public ResponseEntity<ListThumbnailResponse> getPiecesByUserId(@PathVariable String kakaoId){
-        List<ThumbNail> thumbnails = pieceService.findThumbnails(kakaoId);
-        return ResponseEntity.ok().body(new ListThumbnailResponse("S00", "message", thumbnails));
+    public ResponseEntity<ListThumbNailDTOResponse> getPiecesByUserId(@PathVariable String kakaoId){
+        List<ThumbNailDTO> thumbnails = thumbNailService.findThumbNailsByUserId(kakaoId);
+        return ResponseEntity.ok().body(new ListThumbNailDTOResponse("S00", "message", thumbnails));
     }
 
     @RequestMapping(value="/{pieceId}", method=RequestMethod.GET)
@@ -89,9 +85,9 @@ public class PieceController {
     }
     
     @RequestMapping(value="", method=RequestMethod.GET)
-    public ResponseEntity<ListThumbnailResponse> getRandomPieces() {
-        List<ThumbNail> thumbnails = pieceService.findRandomPieces();
-        return ResponseEntity.ok().body(new ListThumbnailResponse("S00", "random thumbnails", thumbnails));
+    public ResponseEntity<ListThumbNailDTOResponse> getRandomPieces() {
+        List<ThumbNailDTO> thumbnails = pieceService.findRandomPieces();
+        return ResponseEntity.ok().body(new ListThumbNailDTOResponse("S00", "random thumbnails", thumbnails));
     }
     
     @RequestMapping(value="/{pieceId}/", method=RequestMethod.DELETE)
@@ -100,27 +96,27 @@ public class PieceController {
         return ResponseEntity.ok(new ResponseDTO("S00", "piece is deleted"));
     }
 
-    @RequestMapping(value = "/place/{placeName}", method = RequestMethod.GET)
-    public ResponseEntity<ListPieceResponse> filterByPlace(@PathVariable String placeName){
-        List<Piece> pieces = pieceService.findByPlace(placeName);
-        return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by place", pieces));
-    }
+    // @RequestMapping(value = "/place/{placeName}", method = RequestMethod.GET)
+    // public ResponseEntity<ListPieceResponse> filterByPlace(@PathVariable String placeName){
+    //     List<Piece> pieces = pieceService.findByPlace(placeName);
+    //     return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by place", pieces));
+    // }
 
-    @GetMapping(value="/who/{whoId}")
-    public ResponseEntity<ListPieceResponse> filterByWho(@PathVariable Long whoId) {
-        List<Piece> pieces = pieceService.findByWho(whoId);
-        return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by who", pieces));
-    }
+    // @GetMapping(value="/who/{whoId}")
+    // public ResponseEntity<ListPieceResponse> filterByWho(@PathVariable Long whoId) {
+    //     List<Piece> pieces = pieceService.findByWho(whoId);
+    //     return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by who", pieces));
+    // }
 
-    @GetMapping(value="/keyword/{keywordId}")
-    public ResponseEntity<ListPieceResponse> filterByKeyword(@PathVariable Long keywordId) {
-        List<Piece> pieces = pieceService.findByKeyword(keywordId);
-        return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by keyword", pieces));
-    }    
+    // @GetMapping(value="/keyword/{keywordId}")
+    // public ResponseEntity<ListPieceResponse> filterByKeyword(@PathVariable Long keywordId) {
+    //     List<Piece> pieces = pieceService.findByKeyword(keywordId);
+    //     return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by keyword", pieces));
+    // }    
 
-    @GetMapping(value = "/filter/keyword/{keywordIds}/who/{whoIds}/place/{placeNames}")
-    public ResponseEntity<ListPieceResponse> filterByKeywordAndWhoAndPlace(@PathVariable List<Long> keywordIds, @PathVariable List<Long> whoIds, @PathVariable List<String> placeNames){
-        Set<Piece> pieces = pieceService.filterByKeywords(whoIds, keywordIds, placeNames);
-        return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered pieces", pieces));
+    @PostMapping(value = "/filter/")
+    public ResponseEntity<ListThumbNailDTOResponse> filterByKeywordAndWhoAndPlace(@RequestBody FilterDTO filterDto){
+        List<ThumbNailDTO> pieces = pieceService.filterByKeywords(filterDto.getWhoIds(), filterDto.getKeywordIds(), filterDto.getPlaceNames());
+        return ResponseEntity.ok().body(new ListThumbNailDTOResponse("S00", "filtered pieces", pieces));
     }
 }

@@ -17,6 +17,7 @@ import com.gotgam.bansi.service.KeywordService;
 import com.gotgam.bansi.service.OptionalKeywordService;
 import com.gotgam.bansi.service.PieceLikeService;
 import com.gotgam.bansi.service.PieceService;
+import com.gotgam.bansi.service.ThumbNailService;
 import com.gotgam.bansi.service.UserService;
 import com.gotgam.bansi.service.WhoKeywordService;
 import com.gotgam.bansi.util.JwtUtil;
@@ -63,12 +64,12 @@ public class PieceControllerTest {
     @Autowired
     private PieceLikeService pieceLikeService;
 
-    @Autowired
-    private UserService userService;
+    @Autowired private UserService userService;
+    @Autowired private ThumbNailService thumbNailService;
 
     @BeforeEach
     public void setUp(){
-        mvc = MockMvcBuilders.standaloneSetup(new PieceController(jwtUtil, pieceService, pieceLikeService, userService))
+        mvc = MockMvcBuilders.standaloneSetup(new PieceController(jwtUtil, pieceService, pieceLikeService, userService, thumbNailService))
             .addFilters(new CharacterEncodingFilter("UTF-8", true))
             .build();
     }

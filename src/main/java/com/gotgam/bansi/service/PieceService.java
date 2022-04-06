@@ -1,10 +1,9 @@
 package com.gotgam.bansi.service;
 
 import java.util.List;
-import java.util.Set;
 
-import com.gotgam.bansi.DAO.ThumbNail;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
+import com.gotgam.bansi.DTO.ThumbnailDTO.ThumbNailDTO;
 import com.gotgam.bansi.model.Piece;
 
 public interface PieceService {
@@ -12,16 +11,14 @@ public interface PieceService {
     List<Piece> findPieceByUserId(String userId);
     Piece updatePiece(Long pieceId, Piece piece);
     Piece savePiece(PieceRequest pieceRequest, String userId);
-    List<ThumbNail> findRandomPieces();
+    List<ThumbNailDTO> findRandomPieces();
     // 필터 : 지역, 키워드, who
     List<Piece> findByPlace(String placeName);
     List<Piece> findByKeyword(Long keywordId);
     List<Piece> findByWho(Long whoId);
-    Set<Piece> filterByKeywords(List<Long> whoIds, List<Long> keywordIds, List<String> placeNames);
+    List<ThumbNailDTO> filterByKeywords(List<Long> whoIds, List<Long> keywordIds, List<String> placeNames);
     // List<PieceThumbnail> 
     void deletePiece(Long pieceId);
-    List<ThumbNail> findThumbnails(String userId);
-    List<ThumbNail> findByKeywordId(Long keywordId);
 
     Long likePiece(Long pieceId, String userId);
     Long dislikePiece(Long pieceId, String userId);

@@ -3,17 +3,11 @@ package com.gotgam.bansi.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.gotgam.bansi.DTO.ImageDTO.ImageRequest;
 import com.gotgam.bansi.DTO.OptionalKeywordDTO.OptionalKeywordRequest;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.DTO.WhoKeywordDTO.WhoKeywordRequest;
-import com.gotgam.bansi.model.Keyword;
-import com.gotgam.bansi.model.Piece;
-import com.gotgam.bansi.model.PlaceKeyword;
-import com.gotgam.bansi.model.WhoKeyword;
 import com.gotgam.bansi.respository.KeywordRepository;
 import com.gotgam.bansi.respository.OptionalKeywordRepository;
 import com.gotgam.bansi.respository.PieceRepository;
@@ -49,6 +43,7 @@ public class PieceServiceTest {
     @Autowired private JwtUtil jwtUtil;
     @Autowired private WhoKeywordRepository whoRepository;
     @Autowired private PlaceKeywordRepository placeRepository;
+    @Autowired private ThumbNailService thumbNailService;
 
     @Value("${test.token}")
     private String testToken;
@@ -64,7 +59,8 @@ public class PieceServiceTest {
             imageService,
             placeKeywordService,
             likeService,
-            commentService);
+            commentService,
+            thumbNailService);
     }
 
     @Test
@@ -103,24 +99,5 @@ public class PieceServiceTest {
             whos,
             "busan"
         );
-    }
-    
-    @Test
-    public void ThumbNailTest(){
-        pieceService.findRandomPieces();
-        String userId = jwtUtil.getUsernameFromTokenStr(testToken);
-        pieceService.findThumbnails(userId);
-    }
-
-    @Test
-    public void filterTest(){
-        List<WhoKeyword> whos = whoRepository.findAll();
-        List<Keyword> keywords = keywordRepository.findAll();
-        List<PlaceKeyword> places = placeRepository.findAll();
-        Set<Piece> pieces = pieceService.filterByKeywords(
-            whos.stream().map(WhoKeyword::getId).collect(Collectors.toList()), 
-            keywords.stream().map(Keyword::getId).collect(Collectors.toList()), 
-            places.stream().map(PlaceKeyword::getName).collect(Collectors.toList()));
-        System.out.println(pieces.size());
     }
 }
