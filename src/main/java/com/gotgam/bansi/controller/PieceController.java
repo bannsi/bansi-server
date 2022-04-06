@@ -1,16 +1,11 @@
 package com.gotgam.bansi.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
-import com.gotgam.bansi.DTO.FilterDTO;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
 import com.gotgam.bansi.DTO.PieceDTO.PieceResponse;
 import com.gotgam.bansi.DTO.PieceLikeDTO.PieceLikeResponse;
 import com.gotgam.bansi.DTO.ResponseDTO;
-import com.gotgam.bansi.DTO.ThumbnailDTO.ListThumbNailDTOResponse;
-import com.gotgam.bansi.DTO.ThumbnailDTO.ThumbNailDTO;
 import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.service.PieceLikeService;
 import com.gotgam.bansi.service.PieceService;
@@ -21,7 +16,6 @@ import com.gotgam.bansi.util.JwtUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,11 +39,11 @@ public class PieceController {
     private final UserService userService;
     private final ThumbNailService thumbNailService;
     
-    @RequestMapping(value = "/user/{kakaoId}", method = RequestMethod.GET)
-    public ResponseEntity<ListThumbNailDTOResponse> getPiecesByUserId(@PathVariable String kakaoId){
-        List<ThumbNailDTO> thumbnails = thumbNailService.findThumbNailsByUserId(kakaoId);
-        return ResponseEntity.ok().body(new ListThumbNailDTOResponse("S00", "message", thumbnails));
-    }
+    // @RequestMapping(value = "/user/{kakaoId}", method = RequestMethod.GET)
+    // public ResponseEntity<ListThumbNailDTOResponse> getPiecesByUserId(@PathVariable String kakaoId){
+    //     List<ThumbNailDTO> thumbnails = thumbNailService.findThumbNailsByUserId(kakaoId);
+    //     return ResponseEntity.ok().body(new ListThumbNailDTOResponse("S00", "message", thumbnails));
+    // }
 
     @RequestMapping(value="/{pieceId}", method=RequestMethod.GET)
     public ResponseEntity<PieceResponse> getPiece(@PathVariable Long pieceId) {
@@ -84,11 +78,11 @@ public class PieceController {
         return ResponseEntity.ok().body(new PieceLikeResponse("S00", "dislike success", likeCount));
     }
     
-    @RequestMapping(value="", method=RequestMethod.GET)
-    public ResponseEntity<ListThumbNailDTOResponse> getRandomPieces() {
-        List<ThumbNailDTO> thumbnails = pieceService.findRandomPieces();
-        return ResponseEntity.ok().body(new ListThumbNailDTOResponse("S00", "random thumbnails", thumbnails));
-    }
+    // @RequestMapping(value="", method=RequestMethod.GET)
+    // public ResponseEntity<ListThumbNailDTOResponse> getRandomPieces() {
+    //     List<ThumbNailDTO> thumbnails = pieceService.findRandomPieces();
+    //     return ResponseEntity.ok().body(new ListThumbNailDTOResponse("S00", "random thumbnails", thumbnails));
+    // }
     
     @RequestMapping(value="/{pieceId}/", method=RequestMethod.DELETE)
     public ResponseEntity<ResponseDTO> deletePiece(@PathVariable Long pieceId) {
@@ -114,9 +108,9 @@ public class PieceController {
     //     return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by keyword", pieces));
     // }    
 
-    @PostMapping(value = "/filter/")
-    public ResponseEntity<ListThumbNailDTOResponse> filterByKeywordAndWhoAndPlace(@RequestBody FilterDTO filterDto){
-        List<ThumbNailDTO> pieces = pieceService.filterByKeywords(filterDto.getWhoIds(), filterDto.getKeywordIds(), filterDto.getPlaceNames());
-        return ResponseEntity.ok().body(new ListThumbNailDTOResponse("S00", "filtered pieces", pieces));
-    }
+    // @PostMapping(value = "/filter/")
+    // public ResponseEntity<ListThumbNailDTOResponse> filterByKeywordAndWhoAndPlace(@RequestBody FilterDTO filterDto){
+    //     List<ThumbNailDTO> pieces = pieceService.filterByKeywords(filterDto.getWhoIds(), filterDto.getKeywordIds(), filterDto.getPlaceNames());
+    //     return ResponseEntity.ok().body(new ListThumbNailDTOResponse("S00", "filtered pieces", pieces));
+    // }
 }

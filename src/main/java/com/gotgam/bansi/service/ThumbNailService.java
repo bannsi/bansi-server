@@ -11,12 +11,10 @@ import com.gotgam.bansi.model.PlaceKeyword;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.model.WhoKeyword;
 
-import org.springframework.stereotype.Service;
-
-@Service
 public interface ThumbNailService {
     List<ThumbNailDTO> findRandomThumbNails();
     List<ThumbNailDTO> findThumbNailsByUserId(String userId);
-    
+    List<ThumbNailDTO> findByKeywords(List<Long> whoIds, List<Long> keywordIds, List<String> placeNames);
+
     ThumbNailDTO createThumbNail(Piece piece, User user, String encoded, Set<Keyword> keywords, Set<OptionalKeyword> opKeywords, Set<WhoKeyword> whoKeywords, PlaceKeyword placeKeyword);
 }
