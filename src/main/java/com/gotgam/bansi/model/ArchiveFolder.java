@@ -26,8 +26,8 @@ public class ArchiveFolder {
     @ManyToOne
     private User user;
     private String name;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Piece> pieces;
+    @ManyToMany
+    private Set<ThumbNail> thumbNails;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<PieceCollection> collections;
     @OneToMany(fetch =  FetchType.EAGER)
@@ -36,7 +36,7 @@ public class ArchiveFolder {
     public ArchiveFolder(User user, String name){
         this.user = user;
         this.name = name;
-        this.pieces = new HashSet<>();
+        this.thumbNails = new HashSet<>();
         this.collections = new HashSet<>();
         this.links = new HashSet<>();
     }

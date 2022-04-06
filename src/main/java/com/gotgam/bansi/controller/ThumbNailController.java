@@ -19,8 +19,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 
-
-
 @RestController
 @SecurityRequirement(name = "Authorization")
 @RequestMapping(value = "/piece/v1")

@@ -13,6 +13,7 @@ import com.gotgam.bansi.util.JwtUtil;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -94,4 +96,10 @@ public class ArchiveController {
         ArchiveFolder folder = folderService.deleteLinkFromFolder(linkId, folderId);
         return ResponseEntity.ok().body(new ArchiveFolderResponse("S00", "아카이브 폴더에서 조각 삭제 성공", folder));
     }
+
+    @GetMapping(value="/test")
+    public String getMethodName() {
+        return "test";
+    }
+    
 }

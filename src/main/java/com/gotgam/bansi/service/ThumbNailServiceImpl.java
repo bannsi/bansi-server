@@ -66,4 +66,9 @@ public class ThumbNailServiceImpl implements ThumbNailService {
         List<ThumbNail> thumbNails = thumbNailRepository.findAllByKeywords_IdInAndWhoKeywords_IdInAndPlaceKeyword_NameIn(keywordIds, whoIds, placeNames);
         return thumbNails.stream().map(tn -> new ThumbNailDTO(tn.getPiece().getPieceId(), tn.getUser().getKakaoId(), tn.getEncoded())).collect(Collectors.toList());
     }
+
+    @Override
+    public ThumbNail getByPiece_Id(Long pieceId){
+        return getByPiece_Id(pieceId);
+    }
 }

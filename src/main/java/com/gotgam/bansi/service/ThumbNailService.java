@@ -8,10 +8,12 @@ import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.model.OptionalKeyword;
 import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.PlaceKeyword;
+import com.gotgam.bansi.model.ThumbNail;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.model.WhoKeyword;
 
 public interface ThumbNailService {
+    ThumbNail getByPiece_Id(Long pieceId);
     List<ThumbNailDTO> findRandomThumbNails();
     List<ThumbNailDTO> findThumbNailsByUserId(String userId);
     List<ThumbNailDTO> findByKeywords(List<Long> whoIds, List<Long> keywordIds, List<String> placeNames);

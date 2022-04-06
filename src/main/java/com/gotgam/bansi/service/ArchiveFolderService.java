@@ -5,8 +5,8 @@ import java.util.List;
 import com.gotgam.bansi.DTO.ArchiveLinkDTO.ArchiveLinkRequest;
 import com.gotgam.bansi.model.ArchiveFolder;
 import com.gotgam.bansi.model.ArchiveLink;
-import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.PieceCollection;
+import com.gotgam.bansi.model.ThumbNail;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.respository.ArchiveFolderRepository;
 import com.gotgam.bansi.respository.ArchiveLinkRepository;
@@ -27,6 +27,7 @@ public class ArchiveFolderService {
     private final PieceService pieceService;
     private final PieceCollectionService collectionService;
     private final UserService userService;
+    private final ThumbNailService thumbNailService;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ArchiveFolder createFolder(String userId, String name){
@@ -57,9 +58,9 @@ public class ArchiveFolderService {
     
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ArchiveFolder addPieceToFolder(Long pieceId, Long folderId){
-        Piece piece = pieceService.getPieceByPieceId(pieceId);
+        ThumbNail thumbNail = thumbNailService.getByPiece_Id(pieceId);
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
-        folder.getPieces().add(piece);
+        folder.getThumbNails().add(thumbNail);
         return folderRepository.save(folder);
     }
 
@@ -82,8 +83,7 @@ public class ArchiveFolderService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ArchiveFolder deletePieceFromFolder(Long pieceId, Long folderId){
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
-        Piece piece = pieceService.getPieceByPieceId(pieceId);
-        folder.getPieces().remove(piece);
+        folder.getThumbNails().remove(thumbNailService.getByPiece_Id(pieceId));
         return folder;
     }
 
