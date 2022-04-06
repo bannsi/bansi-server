@@ -1,6 +1,7 @@
 package com.gotgam.bansi.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.gotgam.bansi.DAO.ThumbNail;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
@@ -16,6 +17,7 @@ public interface PieceService {
     List<Piece> findByPlace(String placeName);
     List<Piece> findByKeyword(Long keywordId);
     List<Piece> findByWho(Long whoId);
+    Set<Piece> filterByKeywords(List<Long> whoIds, List<Long> keywordIds, List<String> placeNames);
     // List<PieceThumbnail> 
     void deletePiece(Long pieceId);
     List<ThumbNail> findThumbnails(String userId);
@@ -23,6 +25,4 @@ public interface PieceService {
 
     Long likePiece(Long pieceId, String userId);
     Long dislikePiece(Long pieceId, String userId);
-
-    void test();
 }

@@ -2,6 +2,7 @@ package com.gotgam.bansi.DTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -66,7 +67,7 @@ public class PieceDTO {
     @Getter
     public static class ListPieceResponse extends ResponseDTO {
         private List<PieceResponseBody> body;
-        public ListPieceResponse(String code, String message, List<Piece> pieces){
+        public ListPieceResponse(String code, String message, Collection<Piece> pieces){
             super(code, message);
             List<PieceResponseBody> body = new ArrayList<>();
             for(Piece piece : pieces){

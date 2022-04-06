@@ -1,6 +1,7 @@
 package com.gotgam.bansi.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -116,4 +117,10 @@ public class PieceController {
         List<Piece> pieces = pieceService.findByKeyword(keywordId);
         return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered by keyword", pieces));
     }    
+
+    @GetMapping(value = "/filter/keyword/{keywordIds}/who/{whoIds}/place/{placeNames}")
+    public ResponseEntity<ListPieceResponse> filterByKeywordAndWhoAndPlace(@PathVariable List<Long> keywordIds, @PathVariable List<Long> whoIds, @PathVariable List<String> placeNames){
+        Set<Piece> pieces = pieceService.filterByKeywords(whoIds, keywordIds, placeNames);
+        return ResponseEntity.ok().body(new ListPieceResponse("S00", "filtered pieces", pieces));
+    }
 }

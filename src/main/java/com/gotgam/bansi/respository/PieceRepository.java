@@ -1,10 +1,14 @@
 package com.gotgam.bansi.respository;
 
 import java.util.List;
+import java.util.Set;
 
 import com.gotgam.bansi.DAO.ThumbNail;
+import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.model.Piece;
+import com.gotgam.bansi.model.PlaceKeyword;
 import com.gotgam.bansi.model.User;
+import com.gotgam.bansi.model.WhoKeyword;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,12 +17,18 @@ import org.springframework.data.repository.query.Param;
 public interface PieceRepository extends JpaRepository<Piece,Long>{
     List<Piece> findByUser(User user);
     
-    List<Piece> findAllByKeywords_Id(Long keywordId);
-    List<Piece> findAllByOpKeywords_id(Long opKeywordId);
-    List<Piece> findAllByWhos_Id(Long whoId);
-    List<Piece> findAllByPlace_Name(String placeName);
+    List<Piece> findByKeywords_Id(Long keywordId);
+    List<Piece> findByOpKeywords_id(Long opKeywordId);
+    List<Piece> findByWhos_Id(Long whoId);
+    List<Piece> findByPlace_Name(String placeName);
 
-    List<Piece> findByKeywordsOrOpKeywordsOrWhosOrPlace(List<Long> keywordIds, List<Long> opKeywordIds, List<Long> whosIds, List<String> placeNames);
+    List<Piece> findByKeywords_IdAndWhos_Id(Long keywordId, Long whoId);
+    List<Piece> findByWhos_IdAndPlace_Name(Long whoId, String placeName);
+    List<Piece> findByKeywords_IdAndPlace_Name(Long keywordId, String placeName);
+
+    List<Piece> findByKeywordsAndWhosAndPlace(Keyword keyword, WhoKeyword whoKeyword, PlaceKeyword placeKeyword);
+    
+    Set<Piece> findAllByKeywords_IdInAndWhos_IdInAndPlace_NameIn(List<Long> keywords, List<Long> whoIds, List<String> placeNames);
 
     @Query(value = "SELECT coalesce(max(pieces.piece_id), 0) FROM pieces", nativeQuery = true)
     Long getMaxId();

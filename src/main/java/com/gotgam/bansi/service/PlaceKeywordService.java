@@ -1,5 +1,6 @@
 package com.gotgam.bansi.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.gotgam.bansi.model.PlaceKeyword;
@@ -31,5 +32,9 @@ public class PlaceKeywordService {
     PlaceKeyword findByName(String placeName){
         PlaceKeyword placeKeyword = placeKeywordRepository.findByName(placeName).orElseThrow(() -> new NotFoundException("wrong place name"));
         return placeKeyword;
+    }
+
+    List<PlaceKeyword> findAll(){
+       return placeKeywordRepository.findAll(); 
     }
 }

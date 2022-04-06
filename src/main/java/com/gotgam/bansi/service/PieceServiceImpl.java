@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.gotgam.bansi.DAO.ThumbNail;
 import com.gotgam.bansi.DTO.PieceDTO.PieceRequest;
@@ -11,6 +13,7 @@ import com.gotgam.bansi.model.Image;
 import com.gotgam.bansi.model.Keyword;
 import com.gotgam.bansi.model.OptionalKeyword;
 import com.gotgam.bansi.model.Piece;
+import com.gotgam.bansi.model.PlaceKeyword;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.model.WhoKeyword;
 import com.gotgam.bansi.respository.KeywordRepository;
@@ -124,35 +127,26 @@ public class PieceServiceImpl implements PieceService {
 
     @Override
     public List<ThumbNail> findByKeywordId(Long keywordId){
-            List<Piece> pieces = pieceRepository.findAllByKeywords_Id(keywordId);
+            List<Piece> pieces = pieceRepository.findByKeywords_Id(keywordId);
             List<ThumbNail> thumbnails = new ArrayList<>();
-            // for(Piece piece : pieces){
-            //     thumbnails.add(new ThumbNail(
-            //         piece.getPieceId(), 
-            //         piece.getImages().stream()
-            //             .filter(img -> img.getThumbnail().equals(true))
-            //             .findFirst()
-            //             .orElse(piece.getImages().get(0)).getEncoded(), 
-            //         piece.getUser().getKakaoId()));
-            // }
         return thumbnails;
     }
 
     @Override
     public List<Piece> findByPlace(String placeName){
-        List<Piece> pieces = pieceRepository.findAllByPlace_Name(placeName);
+        List<Piece> pieces = pieceRepository.findByPlace_Name(placeName);
         return pieces;
     }
 
     @Override
     public List<Piece> findByKeyword(Long keywordId){
-        List<Piece> pieces = pieceRepository.findAllByKeywords_Id(keywordId);
+        List<Piece> pieces = pieceRepository.findByKeywords_Id(keywordId);
         return pieces;
     }
 
     @Override
     public List<Piece> findByWho(Long whoId){
-        List<Piece> pieces = pieceRepository.findAllByWhos_Id(whoId);
+        List<Piece> pieces = pieceRepository.findByWhos_Id(whoId);
         return pieces;
     }
 
@@ -173,11 +167,11 @@ public class PieceServiceImpl implements PieceService {
     }
 
     @Override
-    public void test(){
-        List<Long> keywordIds = new ArrayList<>();
-        List<Long> opKeywordIds = new ArrayList<>();
-        List<Long> whosIds = new ArrayList<>();
-        List<String> placeNames = new ArrayList<>();
-        pieceRepository.findByKeywordsOrOpKeywordsOrWhosOrPlace(keywordIds, opKeywordIds, whosIds, placeNames);
+    public Set<Piece> filterByKeywords(List<Long> whoIds, List<Long> keywordIds, List<String> placeNames){
+        if(whoIds == null) whoIds = whoKeywordRepository.findAll().stream().map(WhoKeyword::getId).collect(Collectors.toList());
+        if(keywordIds == null) keywordIds = keywordRepository.findAll().stream().map(Keyword::getId).collect(Collectors.toList());
+        if(placeNames == null) placeNames = placeKeywordService.findAll().stream().map(PlaceKeyword::getName).collect(Collectors.toList());
+        Set<Piece> pieces = pieceRepository.findAllByKeywords_IdInAndWhos_IdInAndPlace_NameIn(keywordIds,whoIds, placeNames);
+        return pieces;
     }
 }
