@@ -60,12 +60,12 @@ public class ArchiveSerivceTest {
         List<ThumbNailDTO> pieces = pieceService.findRandomPieces();
         
         folder = folderService.addPieceToFolder(pieces.get(0).getPieceId(), folder.getId());
-        assertEquals(folder.getPieces().size(), 1);
+        assertEquals(folder.getThumbNails().size(), 1);
 
         folder = folderService.deletePieceFromFolder(pieces.get(0).getPieceId(), folder.getId());
-        log.info("folder pieces size: " + String.valueOf(folder.getPieces().size()));
+        log.info("folder pieces size: " + String.valueOf(folder.getThumbNails().size()));
         ArchiveFolder testFolder = folderRepository.findById(folder.getId()).orElseThrow(() -> new NotFoundException("잘못된 아카이브 아이디"));
-        log.info("test folder pieces size: " + String.valueOf(testFolder.getPieces().size()));
-        assertEquals(folder.getPieces().size(), testFolder.getPieces().size());
+        log.info("test folder pieces size: " + String.valueOf(testFolder.getThumbNails().size()));
+        assertEquals(folder.getThumbNails().size(), testFolder.getThumbNails().size());
     }   
 }

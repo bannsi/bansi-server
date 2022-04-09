@@ -1,13 +1,14 @@
 package com.gotgam.bansi.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.gotgam.bansi.DTO.ArchiveLinkDTO.ArchiveLinkRequest;
 import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.DTO.ArchiveFolderDTO.ArchiveFolderDTO;
 import com.gotgam.bansi.DTO.ArchiveFolderDTO.ArchiveFolderDTO.ArchiveFolderRequest;
-import com.gotgam.bansi.DTO.ArchiveFolderDTO.ArchiveFolderDTO.ListArchiveFolderResponse;
 import com.gotgam.bansi.DTO.ArchiveFolderDTO.ArchiveFolderResponse;
+import com.gotgam.bansi.DTO.ArchiveFolderDTO.ListArchiveFolderResponse;
 import com.gotgam.bansi.model.ArchiveFolder;
 import com.gotgam.bansi.service.ArchiveFolderService;
 import com.gotgam.bansi.util.JwtUtil;
@@ -35,7 +36,14 @@ public class ArchiveController {
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public ResponseEntity<ListArchiveFolderResponse> listArchives(@PathVariable String userId){
         List<ArchiveFolder> folders = folderService.listFolder(userId);
-        return ResponseEntity.ok().body(new ListArchiveFolderResponse("S00", "list my archives", folders));
+        List<ArchiveFolderDTO> folderDtos = folders.stream().map(folder -> new ArchiveFolderDTO(
+            folder.getId(), 
+            folder.getName(), 
+            folder.getThumbNails(), 
+            folder.getCollections(), 
+            folder.getLinks()
+        )).collect(Collectors.toList());
+        return ResponseEntity.ok().body(new ListArchiveFolderResponse("S00", "list my archives", folderDtos));
     }
 
     @RequestMapping(value="/folder/", method=RequestMethod.POST)

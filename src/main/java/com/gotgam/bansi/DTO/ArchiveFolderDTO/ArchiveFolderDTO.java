@@ -1,12 +1,9 @@
 package com.gotgam.bansi.DTO.ArchiveFolderDTO;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.DTO.ThumbnailDTO.ThumbNailDTO;
-import com.gotgam.bansi.model.ArchiveFolder;
 import com.gotgam.bansi.model.ArchiveLink;
 import com.gotgam.bansi.model.PieceCollection;
 import com.gotgam.bansi.model.ThumbNail;
@@ -33,18 +30,11 @@ public class ArchiveFolderDTO {
         this.collections = collections;
         this.links = links;
     }
+    
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ArchiveFolderRequest{
         private String name;
-    }
-    @Getter
-    public static class ListArchiveFolderResponse extends ResponseDTO {
-        private List<ArchiveFolder> body;
-        public ListArchiveFolderResponse(String code, String message, List<ArchiveFolder> body){
-            super(code, message);
-            this.body = body;
-        }
     }
 }
