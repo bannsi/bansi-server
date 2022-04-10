@@ -28,6 +28,8 @@ public class Item {
     private String content;
     @ManyToOne
     private Piece piece;
+    @ManyToOne
+    private ThumbNail thumbNail;
     @Column(name = "order_num", nullable = false)
     private Integer orderNum;
     @Column(name = "date", nullable = false)

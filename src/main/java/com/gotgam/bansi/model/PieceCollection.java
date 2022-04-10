@@ -30,7 +30,7 @@ public class PieceCollection {
     private User user;
     @Column(name = "title")
     private String title;
-    @Column(name = "cover_image")
+    @Column(name = "cover_image", columnDefinition = "LONGTEXT")
     private String coverImage;
     @Column(name = "start_date")
     private LocalDate startDate;

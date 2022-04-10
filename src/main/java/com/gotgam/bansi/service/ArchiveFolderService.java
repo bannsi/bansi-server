@@ -1,8 +1,10 @@
 package com.gotgam.bansi.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.gotgam.bansi.DTO.ArchiveLinkDTO.ArchiveLinkRequest;
+import com.gotgam.bansi.DTO.ArchiveFolderDTO.ArchiveFolderDTO;
 import com.gotgam.bansi.model.ArchiveFolder;
 import com.gotgam.bansi.model.ArchiveLink;
 import com.gotgam.bansi.model.PieceCollection;
@@ -30,26 +32,26 @@ public class ArchiveFolderService {
     private final ThumbNailService thumbNailService;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ArchiveFolder createFolder(String userId, String name){
+    public ArchiveFolderDTO createFolder(String userId, String name){
         User user = userService.getUserFromId(userId);
         ArchiveFolder folder = new ArchiveFolder(user, name);
-        return folderRepository.save(folder);
+        return new ArchiveFolderDTO(folder);
     }
 
-    public ArchiveFolder getFolder(Long folderId){
+    public ArchiveFolderDTO getFolder(Long folderId){
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
-        return folder;
+        return new ArchiveFolderDTO(folder);
     }
 
-    public List<ArchiveFolder> listFolder(String userId){
+    public List<ArchiveFolderDTO> listFolder(String userId){
         List<ArchiveFolder> folders = folderRepository.findAllByUser_KakaoId(userId);
-        return folders;
+        return folders.stream().map(folder -> new ArchiveFolderDTO(folder)).collect(Collectors.toList());
     }
 
-    public ArchiveFolder updateFolder(Long folderId, String name){
+    public ArchiveFolderDTO updateFolder(Long folderId, String name){
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
         folder.setName(name);
-        return folderRepository.save(folder);
+        return new ArchiveFolderDTO(folderRepository.save(folder));
     }
 
     public void deleteFolder(Long folderId){
@@ -57,51 +59,51 @@ public class ArchiveFolderService {
     }
     
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ArchiveFolder addPieceToFolder(Long pieceId, Long folderId){
+    public ArchiveFolderDTO addPieceToFolder(Long pieceId, Long folderId){
         ThumbNail thumbNail = thumbNailService.getByPiece_Id(pieceId);
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
         folder.getThumbNails().add(thumbNail);
-        return folderRepository.save(folder);
+        return new ArchiveFolderDTO(folderRepository.save(folder));
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ArchiveFolder addCollectionToFolder(Long collectionId, Long folderId){
+    public ArchiveFolderDTO addCollectionToFolder(Long collectionId, Long folderId){
         PieceCollection collection = collectionService.getCollection(collectionId);
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
         folder.getCollections().add(collection);
-        return folderRepository.save(folder);
+        return new ArchiveFolderDTO(folderRepository.save(folder));
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ArchiveFolder deleteCollectionFromFolder(Long collectionId, Long folderId){
+    public ArchiveFolderDTO deleteCollectionFromFolder(Long collectionId, Long folderId){
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
         PieceCollection collection = collectionService.getCollection(collectionId);
         folder.getCollections().remove(collection);
-        return folder;
+        return new ArchiveFolderDTO(folder);
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ArchiveFolder deletePieceFromFolder(Long pieceId, Long folderId){
+    public ArchiveFolderDTO deletePieceFromFolder(Long pieceId, Long folderId){
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
         folder.getThumbNails().remove(thumbNailService.getByPiece_Id(pieceId));
-        return folder;
+        return new ArchiveFolderDTO(folder);
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ArchiveFolder addLinkToFolder(ArchiveLinkRequest linkDto, Long folderId){
+    public ArchiveFolderDTO addLinkToFolder(ArchiveLinkRequest linkDto, Long folderId){
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
         ArchiveLink link = new ArchiveLink(linkDto.getUrl().toString(), linkDto.getTime());
         linkRepository.save(link);
         folder.getLinks().add(link);
-        return folder;
+        return new ArchiveFolderDTO(folder);
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ArchiveFolder deleteLinkFromFolder(Long linkId, Long folderId){
+    public ArchiveFolderDTO deleteLinkFromFolder(Long linkId, Long folderId){
         ArchiveFolder folder = folderRepository.findById(folderId).orElseThrow(() -> new NotFoundException("잘못된 아카이브 폴더 아이디"));
         ArchiveLink link = linkRepository.findById(linkId).orElseThrow(() -> new NotFoundException("잘못된 링크 아이디"));
         folder.getLinks().remove(link);
-        return folder;
+        return new ArchiveFolderDTO(folder);
     }
 
     public ArchiveLink updateLink(Long linkId, ArchiveLinkRequest linkDto){

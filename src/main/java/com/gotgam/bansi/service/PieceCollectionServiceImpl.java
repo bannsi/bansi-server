@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.gotgam.bansi.DTO.ThumbnailDTO.ThumbNailDTO;
+import com.gotgam.bansi.DTO.CollectionDTO.PieceCollectionDTO;
+import com.gotgam.bansi.DTO.CollectionDTO.PieceCollectionRequest;
+import com.gotgam.bansi.DTO.ItemDTO.ItemDTO;
 import com.gotgam.bansi.DTO.ItemDTO.ItemRequest;
-import com.gotgam.bansi.DTO.PieceCollectionDTO.PieceCollectionRequest;
 import com.gotgam.bansi.model.Item;
 import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.PieceCollection;
@@ -73,15 +77,43 @@ public class PieceCollectionServiceImpl implements PieceCollectionService {
     }
 
     @Override
-    public List<PieceCollection> listCollections(String userId){
+    public List<PieceCollectionDTO> listCollections(String userId){
         List<PieceCollection> collections = collectionRepository.findByUser_KakaoId(userId);
-        return collections;   
+        return collections.stream().map(collection -> new PieceCollectionDTO(
+            collection.getCollectionId(), 
+            collection.getCoverImage(), 
+            collection.getStartDate(),
+            collection.getEndDate(), 
+            collection.getPlace().getName(), 
+            collection.getItems().stream().map(item -> new ItemDTO(
+                item.getId(), 
+                item.getContent(), 
+                new ThumbNailDTO(
+                    item.getThumbNail().getPiece().getPieceId(), 
+                    item.getThumbNail().getUser().getKakaoId(), 
+                    item.getThumbNail().getEncoded()), 
+                item.getOrderNum(), 
+                item.getDate())).collect(Collectors.toList()))).collect(Collectors.toList()); 
     }
 
     @Override
-    public List<PieceCollection> findByPlace(String placeName){
+    public List<PieceCollectionDTO> findByPlace(String placeName){
         PlaceKeyword place = placeKeywordService.findByName(placeName);
         List<PieceCollection> collections = collectionRepository.findByPlace(place);
-        return collections;
+        return collections.stream().map(collection -> new PieceCollectionDTO(
+            collection.getCollectionId(), 
+            collection.getCoverImage(), 
+            collection.getStartDate(),
+            collection.getEndDate(), 
+            collection.getPlace().getName(), 
+            collection.getItems().stream().map(item -> new ItemDTO(
+                item.getId(), 
+                item.getContent(), 
+                new ThumbNailDTO(
+                    item.getThumbNail().getPiece().getPieceId(), 
+                    item.getThumbNail().getUser().getKakaoId(), 
+                    item.getThumbNail().getEncoded()), 
+                item.getOrderNum(), 
+                item.getDate())).collect(Collectors.toList()))).collect(Collectors.toList()); 
     }
 }

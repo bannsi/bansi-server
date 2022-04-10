@@ -14,8 +14,8 @@ public class ThumbnailDTO {
     @Setter
     @NoArgsConstructor
     public static class ListThumbnailResponse extends ResponseDTO {
-        List<ThumbNail> body;
-        public ListThumbnailResponse(String code, String message, List<ThumbNail> body){
+        List<ThumbNailDTO> body;
+        public ListThumbnailResponse(String code, String message, List<ThumbNailDTO> body){
             super(code, message);
             this.body = body;
         }
@@ -31,6 +31,12 @@ public class ThumbnailDTO {
         private Long pieceId;
         private String userId;
         private String encoded;
+
+        public ThumbNailDTO(ThumbNail thumbNail){
+            this.pieceId = thumbNail.getPiece().getPieceId();
+            this.userId = thumbNail.getUser().getKakaoId();
+            this.encoded = thumbNail.getEncoded();
+        }
     }
     @Getter
     @Setter

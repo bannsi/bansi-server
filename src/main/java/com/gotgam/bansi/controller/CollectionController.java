@@ -3,9 +3,10 @@ package com.gotgam.bansi.controller;
 import java.io.IOException;
 import java.util.List;
 
-import com.gotgam.bansi.DTO.PieceCollectionDTO.ListPieceCollectionResponse;
-import com.gotgam.bansi.DTO.PieceCollectionDTO.PieceCollectionRequest;
-import com.gotgam.bansi.DTO.PieceCollectionDTO.PieceCollectionResponse;
+import com.gotgam.bansi.DTO.CollectionDTO.ListPieceCollectionResponse;
+import com.gotgam.bansi.DTO.CollectionDTO.PieceCollectionDTO;
+import com.gotgam.bansi.DTO.CollectionDTO.PieceCollectionRequest;
+import com.gotgam.bansi.DTO.CollectionDTO.PieceCollectionResponse;
 import com.gotgam.bansi.model.PieceCollection;
 import com.gotgam.bansi.service.PieceCollectionService;
 import com.gotgam.bansi.util.JwtUtil;
@@ -56,13 +57,13 @@ public class CollectionController {
 
     @RequestMapping(value="/user/{userId}", method=RequestMethod.GET)
     public ResponseEntity<ListPieceCollectionResponse> listCollection(@PathVariable String userId) {
-        List<PieceCollection> collections = collectionService.listCollections(userId);
+        List<PieceCollectionDTO> collections = collectionService.listCollections(userId);
         return ResponseEntity.ok().body(new ListPieceCollectionResponse("S00", "collection list", collections));
     }
 
     @RequestMapping(value = "/place/{placeName}", method = RequestMethod.GET)
     public ResponseEntity<ListPieceCollectionResponse> filterByplaceName(@PathVariable String placeName){
-        List<PieceCollection> collections = collectionService.findByPlace(placeName);
+        List<PieceCollectionDTO> collections = collectionService.findByPlace(placeName);
         return ResponseEntity.ok().body(new ListPieceCollectionResponse("S00", "filtered by place", collections));
     }
 

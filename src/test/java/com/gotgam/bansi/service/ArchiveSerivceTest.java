@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
 import com.gotgam.bansi.DTO.ThumbnailDTO.ThumbNailDTO;
+import com.gotgam.bansi.DTO.ArchiveFolderDTO.ArchiveFolderDTO;
 import com.gotgam.bansi.model.ArchiveFolder;
 import com.gotgam.bansi.respository.ArchiveFolderRepository;
 import com.gotgam.bansi.util.JwtUtil;
@@ -47,7 +48,7 @@ public class ArchiveSerivceTest {
     public void createArchiveTest(){
         String username = jwtUtil.getUsernameFromTokenStr(testToken);
 
-        ArchiveFolder folder = folderService.createFolder(username, "test folder");
+        ArchiveFolderDTO folder = folderService.createFolder(username, "test folder");
         
         assertEquals(folder.getName(), "test folder");
     }
@@ -56,7 +57,7 @@ public class ArchiveSerivceTest {
     @DisplayName("아카이브 변경 테스트")
     public void updateArchiveTest(){
         String username = jwtUtil.getUsernameFromTokenStr(testToken);
-        ArchiveFolder folder = folderService.createFolder(username, "test folder");
+        ArchiveFolderDTO folder = folderService.createFolder(username, "test folder");
         List<ThumbNailDTO> pieces = pieceService.findRandomPieces();
         
         folder = folderService.addPieceToFolder(pieces.get(0).getPieceId(), folder.getId());
