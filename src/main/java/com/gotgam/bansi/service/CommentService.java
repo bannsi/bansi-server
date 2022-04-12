@@ -9,7 +9,10 @@ import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.respository.CommentRepository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
@@ -20,7 +23,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
+    private final PieceService pieceService;
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public CommentDTO createCommnet(User user, Piece piece, String content){
         Comment comment = new Comment(user, piece, content);
         return new CommentDTO(commentRepository.save(comment));
@@ -39,5 +44,11 @@ public class CommentService {
     public List<CommentDTO> findAllByPiece(Piece piece){
         List<Comment> comments = commentRepository.findAllByPiece(piece);
         return comments.stream().map(comment -> new CommentDTO(comment)).collect(Collectors.toList());
+    }
+
+    public Page<Comment> findAllByPiece(Long pieceId, PageRequest pageRequest){
+        Piece piece = pieceService.getPieceByPieceId(pieceId);
+        Page<Comment> comments = commentRepository.findAllByPiece(piece, pageRequest);
+        return comments;
     }
 }

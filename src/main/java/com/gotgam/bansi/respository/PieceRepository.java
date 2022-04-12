@@ -11,9 +11,12 @@ import com.gotgam.bansi.model.WhoKeyword;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface PieceRepository extends JpaRepository<Piece,Long>{
     List<Piece> findByUser(User user);
+    List<Piece> findAll();
     
     List<Piece> findByKeywords_Id(Long keywordId);
     List<Piece> findByOpKeywords_id(Long opKeywordId);

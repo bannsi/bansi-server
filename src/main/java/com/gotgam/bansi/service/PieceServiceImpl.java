@@ -44,7 +44,6 @@ public class PieceServiceImpl implements PieceService {
     private final ImageService imageService;
     private final PlaceKeywordService placeKeywordService;
     private final PieceLikeService likeService;
-    private final CommentService commentService;
     private final ThumbNailService thumbNailService;
 
     private final Integer RANDOM_PIECES = 6;

@@ -13,5 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentRepository extends PagingAndSortingRepository<Comment, Long> {
     List<Comment> findAllByPiece(Piece piece);
+    List<Comment> findAllByPiece_PieceId(Long pieceId);
+    
     Page<Comment> findAllByPiece(Piece piece, Pageable pageable);
 }

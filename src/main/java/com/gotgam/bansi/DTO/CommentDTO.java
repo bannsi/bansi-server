@@ -1,7 +1,10 @@
 package com.gotgam.bansi.DTO;
 
+import javax.validation.constraints.NotBlank;
+
 import com.gotgam.bansi.model.Comment;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,8 +26,10 @@ public class CommentDTO {
     @Getter
     @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class CommentRequest{
-        private String content;
+        @NotBlank
+        private String comment;
     }
 
     @Getter

@@ -46,24 +46,12 @@ public class PieceControllerTest {
     @Value("${test.token}")
     private String testToken;
 
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private PieceService pieceService;
-
-    @Autowired
-    private KeywordService keywordService;
-
-    @Autowired
-    private OptionalKeywordService optionalKeywordService;
-
-    @Autowired
-    private WhoKeywordService whoKeywordService;
-    
-    @Autowired
-    private PieceLikeService pieceLikeService;
-
+    @Autowired private JwtUtil jwtUtil;
+    @Autowired private PieceService pieceService;
+    @Autowired private KeywordService keywordService;
+    @Autowired private OptionalKeywordService optionalKeywordService;
+    @Autowired private WhoKeywordService whoKeywordService;
+    @Autowired private PieceLikeService pieceLikeService;
     @Autowired private UserService userService;
     @Autowired private ThumbNailService thumbNailService;
 
@@ -109,8 +97,6 @@ public class PieceControllerTest {
         reqBody.put("images", images);
         reqBody.put("place", "busan");
 
-        // Gson gson = new Gson();
-        // JsonObject json = gson.toJsonTree(reqBody).getAsJsonObject();
         String json = new ObjectMapper().writeValueAsString(reqBody);
         final ResultActions actions = mvc.perform(
             post("/pieces/v1/")

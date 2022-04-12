@@ -39,7 +39,6 @@ public class PieceServiceTest {
     @Autowired private ImageService imageService;
     @Autowired private PlaceKeywordService placeKeywordService;
     @Autowired private PieceLikeService likeService;
-    @Autowired private CommentService commentService;
     @Autowired private JwtUtil jwtUtil;
     @Autowired private WhoKeywordRepository whoRepository;
     @Autowired private PlaceKeywordRepository placeRepository;
@@ -59,7 +58,6 @@ public class PieceServiceTest {
             imageService,
             placeKeywordService,
             likeService,
-            commentService,
             thumbNailService);
     }
 
