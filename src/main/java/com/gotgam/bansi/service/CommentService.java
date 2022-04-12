@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.gotgam.bansi.DTO.CommentDTO;
+import com.gotgam.bansi.DTO.CommentDTO.CommentRequest;
 import com.gotgam.bansi.model.Comment;
 import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.User;
@@ -24,11 +25,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
+    private final UserService userService;
     private final PieceService pieceService;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public CommentDTO createCommnet(User user, Piece piece, String content){
-        Comment comment = new Comment(user, piece, content);
+    public CommentDTO createCommnet(String userId, Long pieceId, CommentRequest commentRequest){
+        User user = userService.getUserFromId(userId);
+        Piece piece = pieceService.getPieceByPieceId(pieceId);
+        Comment comment = new Comment(user, piece, commentRequest.getComment());
         return new CommentDTO(commentRepository.save(comment));
     }
 
@@ -36,9 +40,10 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    public CommentDTO updateCommnet(Long commentId, String content){
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException("잘못된 댓글 아이디"));
-        comment.setContent(content);
+    public CommentDTO updateCommnet(String userId, Long commentId, CommentRequest commentRequest){
+        User user = userService.getUserFromId(userId);
+        Comment comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(() -> new NotFoundException("잘못된 댓글 아이디"));
+        comment.setContent(commentRequest.getComment());
         return new CommentDTO(comment);
     }
 
@@ -58,5 +63,10 @@ public class CommentService {
             }
         });
         return commentDto;
+    }
+
+    public void deleteComment(String userId, Long commentId){
+        User user = userService.getUserFromId(userId);
+        commentRepository.deleteByIdAndUser(commentId, user);          
     }
 }

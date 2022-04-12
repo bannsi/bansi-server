@@ -3,8 +3,8 @@ package com.gotgam.bansi.controller;
 import com.gotgam.bansi.DTO.CommentDTO;
 import com.gotgam.bansi.DTO.CommentDTO.CommentRequest;
 import com.gotgam.bansi.DTO.CommentDTO.CommentResponse;
-import com.gotgam.bansi.model.Piece;
-import com.gotgam.bansi.model.User;
+import com.gotgam.bansi.DTO.CommentDTO.PageCommentResponse;
+import com.gotgam.bansi.DTO.ResponseDTO;
 import com.gotgam.bansi.service.CommentService;
 import com.gotgam.bansi.service.PieceService;
 import com.gotgam.bansi.service.UserService;
@@ -39,16 +39,29 @@ public class CommentController {
 
     @RequestMapping(value="/piece/{pieceId}/", method=RequestMethod.POST)
     public CommentResponse createCommnet(@RequestHeader HttpHeaders headers, @PathVariable Long pieceId, @RequestBody CommentRequest commentReq) {
-        System.out.println(commentReq.getComment());
         String kakaoId = jwtUtil.getUsernameFromTokenStr(headers.getFirst("Authorization"));
-        User user = userService.getUserFromId(kakaoId);
-        Piece piece = pieceService.getPieceByPieceId(pieceId);
-        CommentDTO commentDTO =  commentService.createCommnet(user, piece, commentReq.getComment());
+        CommentDTO commentDTO =  commentService.createCommnet(kakaoId, pieceId, commentReq);
         return new CommentResponse("S00", "댓글 생성 성공", commentDTO);
     }
 
     @RequestMapping(value = "/piece/{pieceId}", method = RequestMethod.GET)
-    public Page<CommentDTO> listComment(@PathVariable Long pieceId, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
-        return commentService.findAllByPiece(pieceId, PageRequest.of(page, size));
+    public PageCommentResponse listComment(@PathVariable Long pieceId, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        Page<CommentDTO> pages =  commentService.findAllByPiece(pieceId, PageRequest.of(page, size));
+        return new PageCommentResponse("S00", "댓글 참조 성공", pages);
     }
+
+    @RequestMapping(value="/{commentId}/", method=RequestMethod.PUT)
+    public CommentResponse updateComment(@RequestHeader HttpHeaders headers, @PathVariable Long commentId, @RequestBody CommentRequest commentReq) {
+        String kakaoId = jwtUtil.getUsernameFromTokenStr(headers.getFirst("Authorization"));
+        CommentDTO commentDTO = commentService.updateCommnet(kakaoId, commentId, commentReq);
+        return new CommentResponse("S00", "댓글 수정 성공", commentDTO);
+    }
+    
+    @RequestMapping(value="/commentId/", method=RequestMethod.DELETE)
+    public ResponseDTO deleteComment(@RequestHeader HttpHeaders headers, @PathVariable Long commentId) {
+        String kakaoId = jwtUtil.getUsernameFromTokenStr(headers.getFirst("Authorization"));
+        commentService.deleteComment(kakaoId, commentId);
+        return new ResponseDTO("S00", "댓글 삭제 성공");
+    }
+    
 }
