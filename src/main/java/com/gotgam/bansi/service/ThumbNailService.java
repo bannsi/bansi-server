@@ -12,11 +12,14 @@ import com.gotgam.bansi.model.ThumbNail;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.model.WhoKeyword;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 public interface ThumbNailService {
     ThumbNail getByPiece_Id(Long pieceId);
     List<ThumbNailDTO> findRandomThumbNails();
-    List<ThumbNailDTO> findThumbNailsByUserId(String userId);
-    List<ThumbNailDTO> findByKeywords(List<Long> whoIds, List<Long> keywordIds, List<String> placeNames);
+    Page<ThumbNailDTO> findThumbNailsByUserId(String userId, PageRequest pageRequest);
+    Page<ThumbNailDTO> findByKeywords(List<Long> whoIds, List<Long> keywordIds, List<String> placeNames, PageRequest pageRequest);
 
     ThumbNailDTO createThumbNail(Piece piece, User user, String encoded, Set<Keyword> keywords, Set<OptionalKeyword> opKeywords, Set<WhoKeyword> whoKeywords, PlaceKeyword placeKeyword);
 }

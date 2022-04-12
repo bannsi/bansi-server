@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.gotgam.bansi.DTO.ThumbnailDTO.ThumbNailDTO;
@@ -18,6 +19,8 @@ import com.gotgam.bansi.respository.KeywordRepository;
 import com.gotgam.bansi.respository.ThumbNailRepository;
 import com.gotgam.bansi.respository.WhoKeywordRepository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,8 +48,16 @@ public class ThumbNailServiceImpl implements ThumbNailService {
     }
 
     @Override
-    public List<ThumbNailDTO> findThumbNailsByUserId(String userId){
-        return thumbNailRepository.findAllByUser_KakaoId(userId).stream().map(tn -> new ThumbNailDTO(tn.getPiece().getPieceId(), tn.getUser().getKakaoId(), tn.getEncoded())).collect(Collectors.toList());
+    public Page<ThumbNailDTO> findThumbNailsByUserId(String userId, PageRequest pageRequest){
+        Page<ThumbNail> thumbNails =  thumbNailRepository.findAllByUser_KakaoId(userId, pageRequest);
+        Page<ThumbNailDTO> pages = thumbNails.map(new Function<ThumbNail, ThumbNailDTO>(){
+            @Override
+            public ThumbNailDTO apply(ThumbNail thumbNail){
+                ThumbNailDTO thumbNailDTO = new ThumbNailDTO(thumbNail);
+                return thumbNailDTO;
+            }
+        });
+        return pages;
     }
 
     @Override
@@ -57,14 +68,21 @@ public class ThumbNailServiceImpl implements ThumbNailService {
     }
 
     @Override
-    public List<ThumbNailDTO> findByKeywords(List<Long> whoIds, List<Long> keywordIds, List<String> placeNames){
+    public Page<ThumbNailDTO> findByKeywords(List<Long> whoIds, List<Long> keywordIds, List<String> placeNames, PageRequest pageRequest){
         
         if(keywordIds.size() == 0) keywordIds = keywordRepository.findAll().stream().map(Keyword::getId).collect(Collectors.toList());
         if(placeNames.size() == 0) placeNames = placeKeywordService.findAll().stream().map(PlaceKeyword::getName).collect(Collectors.toList());
         if(whoIds.size() == 0) whoIds = whoKeywordRepository.findAll().stream().map(WhoKeyword::getId).collect(Collectors.toList());
         
-        List<ThumbNail> thumbNails = thumbNailRepository.findAllByKeywords_IdInAndWhoKeywords_IdInAndPlaceKeyword_NameIn(keywordIds, whoIds, placeNames);
-        return thumbNails.stream().map(tn -> new ThumbNailDTO(tn.getPiece().getPieceId(), tn.getUser().getKakaoId(), tn.getEncoded())).collect(Collectors.toList());
+        Page<ThumbNail> thumbNails = thumbNailRepository.findAllByKeywords_IdInAndWhoKeywords_IdInAndPlaceKeyword_NameIn(keywordIds, whoIds, placeNames, pageRequest);
+        Page<ThumbNailDTO> pages = thumbNails.map(new Function<ThumbNail, ThumbNailDTO>(){
+            @Override
+            public ThumbNailDTO apply(ThumbNail thumbNail){
+                ThumbNailDTO thumbNailDTO = new ThumbNailDTO(thumbNail);
+                return thumbNailDTO;
+            }
+        });
+        return pages;
     }
 
     @Override

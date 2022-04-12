@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.gotgam.bansi.model.ThumbNail;
 
+import org.springframework.data.domain.Page;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +46,14 @@ public class ThumbnailDTO {
     public static class ListThumbNailDTOResponse extends ResponseDTO {
         List<ThumbNailDTO> body;
         public ListThumbNailDTOResponse(String code, String message, List<ThumbNailDTO> body){
+            super(code, message);
+            this.body = body;
+        }
+    }
+
+    public static class PageThumbNailResponse extends ResponseDTO {
+        Page<ThumbNailDTO> body;
+        public PageThumbNailResponse(String code, String message, Page<ThumbNailDTO> body){
             super(code, message);
             this.body = body;
         }
