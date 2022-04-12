@@ -3,7 +3,6 @@ package com.gotgam.bansi.controller;
 import com.gotgam.bansi.DTO.CommentDTO;
 import com.gotgam.bansi.DTO.CommentDTO.CommentRequest;
 import com.gotgam.bansi.DTO.CommentDTO.CommentResponse;
-import com.gotgam.bansi.model.Comment;
 import com.gotgam.bansi.model.Piece;
 import com.gotgam.bansi.model.User;
 import com.gotgam.bansi.service.CommentService;
@@ -48,9 +47,8 @@ public class CommentController {
         return new CommentResponse("S00", "댓글 생성 성공", commentDTO);
     }
 
-
-    @RequestMapping(value = "/piece/{pieceId}")
-    public Page<Comment> listComment(@PathVariable Long pieceId, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+    @RequestMapping(value = "/piece/{pieceId}", method = RequestMethod.GET)
+    public Page<CommentDTO> listComment(@PathVariable Long pieceId, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
         return commentService.findAllByPiece(pieceId, PageRequest.of(page, size));
     }
 }

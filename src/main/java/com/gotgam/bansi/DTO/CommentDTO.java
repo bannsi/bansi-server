@@ -4,6 +4,8 @@ import javax.validation.constraints.NotBlank;
 
 import com.gotgam.bansi.model.Comment;
 
+import org.springframework.data.domain.Page;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +38,15 @@ public class CommentDTO {
     public static class CommentResponse extends ResponseDTO {
         private CommentDTO body;
         public CommentResponse(String code, String message, CommentDTO body){
+            super(code, message);
+            this.body = body;
+        }
+    }
+
+    @Getter
+    public static class PageCommentResponse extends ResponseDTO {
+        private Page<CommentDTO> body;
+        public PageCommentResponse(String code, String message, Page<CommentDTO> body){
             super(code, message);
             this.body = body;
         }

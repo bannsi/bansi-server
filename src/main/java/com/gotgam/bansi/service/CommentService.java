@@ -1,6 +1,7 @@
 package com.gotgam.bansi.service;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.gotgam.bansi.DTO.CommentDTO;
@@ -46,9 +47,16 @@ public class CommentService {
         return comments.stream().map(comment -> new CommentDTO(comment)).collect(Collectors.toList());
     }
 
-    public Page<Comment> findAllByPiece(Long pieceId, PageRequest pageRequest){
+    public Page<CommentDTO> findAllByPiece(Long pieceId, PageRequest pageRequest){
         Piece piece = pieceService.getPieceByPieceId(pieceId);
         Page<Comment> comments = commentRepository.findAllByPiece(piece, pageRequest);
-        return comments;
+        Page<CommentDTO> commentDto = comments.map(new Function<Comment, CommentDTO>(){
+            @Override
+            public CommentDTO apply(Comment comment){
+                CommentDTO commentDTO = new CommentDTO(comment);
+                return commentDTO;
+            }
+        });
+        return commentDto;
     }
 }
