@@ -1,6 +1,5 @@
 package com.gotgam.bansi.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,7 +22,6 @@ import com.gotgam.bansi.service.WhoKeywordService;
 import com.gotgam.bansi.util.JwtUtil;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -157,72 +155,5 @@ public class PieceControllerTest {
         );
     
         actions.andExpectAll(status().isBadRequest());        
-    }
-
-    @Test
-    public void listPiece() throws Exception {
-        final ResultActions actions = mvc.perform(
-            get("/pieces/v1")
-                .header(HttpHeaders.AUTHORIZATION, testToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        );
-        actions.andExpect(status().isOk());
-    }
-
-    @Test
-    public void randomPieces() throws Exception {
-        final ResultActions actions = mvc.perform(
-            get("/pieces/v1")
-                .header(HttpHeaders.AUTHORIZATION, testToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        );
-        
-        actions.andExpect(status().isOk());
-    }
-
-    @Test
-    @DisplayName("지역 필터링")
-    public void placeFilterTest() throws Exception {
-        final ResultActions actions = mvc.perform(
-            get("/pieces/v1/place/부산")
-                .header(HttpHeaders.AUTHORIZATION, testToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        );
-
-        actions.andExpect(status().isOk());
-    }
-
-    @Test
-    @DisplayName("키워드 필터링")
-    public void keywordFilterTest() throws Exception {
-        final ResultActions actions = mvc.perform(
-            get("/pieces/v1/keyword/1")
-                .header(HttpHeaders.AUTHORIZATION, testToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        );
-
-        actions.andExpect(status().isOk());
-    }
-
-    @Test
-    @DisplayName("동행자 필터링")
-    public void whoFilterTest() throws Exception {
-        final ResultActions actions = mvc.perform(
-            get("/pieces/v1/who/1")
-                .header(HttpHeaders.AUTHORIZATION, testToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        );
-
-        actions.andExpect(status().isOk());
     }
 }

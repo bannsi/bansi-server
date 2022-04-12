@@ -35,6 +35,7 @@ public class ArchiveFolderService {
     public ArchiveFolderDTO createFolder(String userId, String name){
         User user = userService.getUserFromId(userId);
         ArchiveFolder folder = new ArchiveFolder(user, name);
+        folderRepository.save(folder);
         return new ArchiveFolderDTO(folder);
     }
 

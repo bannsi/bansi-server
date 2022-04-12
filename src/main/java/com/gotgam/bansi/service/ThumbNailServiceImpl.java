@@ -87,6 +87,6 @@ public class ThumbNailServiceImpl implements ThumbNailService {
 
     @Override
     public ThumbNail getByPiece_Id(Long pieceId){
-        return getByPiece_Id(pieceId);
+        return thumbNailRepository.getByPiece_PieceId(pieceId);
     }
 }

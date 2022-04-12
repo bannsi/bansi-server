@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ThumbNailRepository extends JpaRepository<ThumbNail, Long> {
+    ThumbNail getByPiece_PieceId(Long pieceId);
     List<ThumbNail> findAllById(Iterable<Long> ids);
     List<ThumbNail> findAllByUser_KakaoId(String userId);
     List<ThumbNail> findAllByKeywords_IdInAndWhoKeywords_IdInAndPlaceKeyword_NameIn(List<Long> keywords, List<Long> whoIds, List<String> placeNames);
