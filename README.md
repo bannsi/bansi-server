@@ -1,6 +1,14 @@
 # 곧,감 (Got Gam)
 ![gotgam](asset/gotgam.png)
 키워드 기반 여행 경험 공유 SNS
+## 목차
+- [곧,감 (Got Gam)](#곧감-got-gam)
+  - [목차](#목차)
+  - [개발 목표](#개발-목표)
+  - [구조](#구조)
+  - [실행 방법](#실행-방법)
+  - [도커 이미지 실행](#도커-이미지-실행)
+  - [Team 반시](#team-반시)
 ## 개발 목표
 - 마이크로서비스 구조(Microservice Architecture, MSA)로 작성된 서비스를 모놀리식 서비스로 변경
   - 각 마이크로 서비스를 서비스 단위로 분리
@@ -11,6 +19,15 @@
   - 각 구성요소는 서로 추상화되어 있으며, 인터페이스를 통하여 소통
 ## 구조 
 Client <- DTO -> Controller <- DTO -> Service <- DAO -> Repository <- DAO -> Entity
+## 실행 방법
+```bash
+gradle bootRun
+```
+## 도커 이미지 실행
+```bash
+docker pull zzzinho/gotgam
+docker run -d -p 80:8080 zzzinho/gotgam
+```
 ## Team 반시
 - 정진호 Backend Developer [zzzinho Github](https://github.com/zzzinho)
 - 곽혜원 Frontend Developer [YumYumNyang Github](https://github.com/YumYumNyang)
